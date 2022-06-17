@@ -37,6 +37,9 @@ dependencies {
 
     // VERSION DEFINITIONS
     def dagger_version = "2.42"
+    def navigation_version = "2.5.0-rc02"
+    def lifecycle_version = "2.5.0-rc02"
+    def timber_version = "5.0.1"
 
     //---------------------------------------------------------------------//
 
@@ -44,6 +47,9 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     //Material Design
     implementation 'com.google.android.material:material:1.6.1'
@@ -54,6 +60,16 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+
+    // Timber
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    //Scalable DP
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
 
     // Tests
     testImplementation 'junit:junit:4.13.2'
