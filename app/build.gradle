@@ -44,6 +44,7 @@ dependencies {
     def navigation_version = "2.5.0-rc02"
     def lifecycle_version = "2.5.0-rc02"
     def timber_version = "5.0.1"
+    def lottieVersion = "5.2.0"
 
     //---------------------------------------------------------------------//
 
@@ -77,8 +78,11 @@ dependencies {
     // Timber
     implementation "com.jakewharton.timber:timber:$timber_version"
 
-    //Scalable DP
+    // Scalable DP
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
+
+    // Lottie Animation
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 
     // Tests
     testImplementation 'junit:junit:4.13.2'

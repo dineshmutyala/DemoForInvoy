@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr format="reference" name="customTextH1"/>
+    <attr format="reference" name="customTextH1Alt"/>
+    <attr format="reference" name="customTextH2"/>
+    <attr format="reference" name="customTextH2Alt"/>
+    <attr format="reference" name="customTextH3"/>
+    <attr format="reference" name="customTextH3Alt"/>
+    <attr format="reference" name="customTextButtonL"/>
+    <attr format="reference" name="customTextButtonM"/>
+    <attr format="reference" name="customTextButtonS"/>
+    <attr format="reference" name="customTextButtonXS"/>
+    <attr format="reference" name="customTextSubHeaderL"/>
+    <attr format="reference" name="customTextSubHeaderM"/>
+    <attr format="reference" name="customTextSubHeaderS"/>
+    <attr format="reference" name="customTextTextL"/>
+    <attr format="reference" name="customTextTextLBold"/>
+    <attr format="reference" name="customTextTextS"/>
+    <attr format="reference" name="customTextTextSBold"/>
+    <attr format="reference" name="customTextTextXS"/>
+    <attr format="reference" name="customTextTextXSBold"/>
+</resources>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="CustomText">
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="CustomText.H1" parent="CustomText">
+        <item name="android:fontFamily">@font/eczar_extrabold</item>
+        <item name="android:textSize">@dimen/custom_text_size_h_1</item>
+    </style>
+    <style name="CustomText.H1.Alt">
+        <item name="android:fontFamily">@font/rubik_bold</item>
+    </style>
+    <style name="CustomText.H2">
+        <item name="android:fontFamily">@font/eczar_bold</item>
+        <item name="android:textSize">@dimen/custom_text_size_h_2</item>
+    </style>
+    <style name="CustomText.H2.Alt">
+        <item name="android:fontFamily">@font/rubik_bold</item>
+    </style>
+    <style name="CustomText.H3">
+        <item name="android:fontFamily">@font/eczar_bold</item>
+        <item name="android:textSize">@dimen/custom_text_size_h_3</item>
+    </style>
+    <style name="CustomText.H3.Alt">
+        <item name="android:fontFamily">@font/rubik_bold</item>
+    </style>
+    <style name="CustomText.Button">
+        <item name="android:fontFamily">@font/rubik_bold</item>
+    </style>
+    <style name="CustomText.Button.L">
+        <item name="android:textSize">@dimen/custom_text_size_button_large</item>
+    </style>
+    <style name="CustomText.Button.M">
+        <item name="android:textSize">@dimen/custom_text_size_button_medium</item>
+    </style>
+    <style name="CustomText.Button.S">
+        <item name="android:textSize">@dimen/custom_text_size_button_small</item>
+    </style>
+    <style name="CustomText.Button.XS">
+        <item name="android:textSize">@dimen/custom_text_size_button_x_small</item>
+    </style>
+    <style name="CustomText.SubHeader">
+        <item name="android:fontFamily">@font/rubik_bold</item>
+    </style>
+    <style name="CustomText.SubHeader.L">
+        <item name="android:textSize">@dimen/custom_text_size_sub_header_large</item>
+    </style>
+    <style name="CustomText.SubHeader.M">
+        <item name="android:textSize">@dimen/custom_text_size_sub_header_medium</item>
+    </style>
+    <style name="CustomText.SubHeader.S">
+        <item name="android:textSize">@dimen/custom_text_size_sub_header_small</item>
+    </style>
+    <style name="CustomText.Text">
+        <item name="android:fontFamily">@font/rubik_medium</item>
+    </style>
+    <style name="CustomText.Text.L">
+        <item name="android:textSize">@dimen/custom_text_size_text_large</item>
+    </style>
+    <style name="CustomText.Text.L.Bold">
+        <item name="android:fontFamily">@font/rubik_black</item>
+    </style>
+    <style name="CustomText.Text.S">
+        <item name="android:textSize">@dimen/custom_text_size_text_small</item>
+    </style>
+    <style name="CustomText.Text.S.Bold">
+        <item name="android:fontFamily">@font/rubik_black</item>
+    </style>
+    <style name="CustomText.Text.XS">
+        <item name="android:textSize">@dimen/custom_text_size_text_x_small</item>
+    </style>
+    <style name="CustomText.Text.XS.Bold">
+        <item name="android:fontFamily">@font/rubik_black</item>
+    </style>
+</resources>

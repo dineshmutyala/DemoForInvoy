@@ -12,5 +12,27 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <item name="customTextH1">@style/CustomText.H1</item>
+        <item name="customTextH1Alt">@style/CustomText.H1.Alt</item>
+        <item name="customTextH2">@style/CustomText.H2</item>
+        <item name="customTextH2Alt">@style/CustomText.H2.Alt</item>
+        <item name="customTextH3">@style/CustomText.H3</item>
+        <item name="customTextH3Alt">@style/CustomText.H3.Alt</item>
+        <item name="customTextButtonL">@style/CustomText.Button.L</item>
+        <item name="customTextButtonM">@style/CustomText.Button.M</item>
+        <item name="customTextButtonS">@style/CustomText.Button.S</item>
+        <item name="customTextButtonXS">@style/CustomText.Button.XS</item>
+        <item name="customTextSubHeaderL">@style/CustomText.SubHeader.L</item>
+        <item name="customTextSubHeaderM">@style/CustomText.SubHeader.M</item>
+        <item name="customTextSubHeaderS">@style/CustomText.SubHeader.S</item>
+        <item name="customTextTextL">@style/CustomText.Text.L</item>
+        <item name="customTextTextLBold">@style/CustomText.Text.L.Bold</item>
+        <item name="customTextTextS">@style/CustomText.Text.S</item>
+        <item name="customTextTextSBold">@style/CustomText.Text.S.Bold</item>
+        <item name="customTextTextXS">@style/CustomText.Text.XS</item>
+        <item name="customTextTextXSBold">@style/CustomText.Text.XS.Bold</item>
+
+
     </style>
 </resources>

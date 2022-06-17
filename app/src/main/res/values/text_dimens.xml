@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="custom_text_size_h_1">@dimen/_32sdp</dimen>
+    <dimen name="custom_text_size_h_2">@dimen/_28sdp</dimen>
+    <dimen name="custom_text_size_h_3">@dimen/_24sdp</dimen>
+    <dimen name="custom_text_size_button_large">@dimen/_20sdp</dimen>
+    <dimen name="custom_text_size_button_medium">@dimen/_16sdp</dimen>
+    <dimen name="custom_text_size_button_small">@dimen/_14sdp</dimen>
+    <dimen name="custom_text_size_button_x_small">@dimen/_12sdp</dimen>
+    <dimen name="custom_text_size_sub_header_large">@dimen/_18sdp</dimen>
+    <dimen name="custom_text_size_sub_header_medium">@dimen/_16sdp</dimen>
+    <dimen name="custom_text_size_sub_header_small">@dimen/_14sdp</dimen>
+    <dimen name="custom_text_size_text_large">@dimen/_16sdp</dimen>
+    <dimen name="custom_text_size_text_small">@dimen/_14sdp</dimen>
+    <dimen name="custom_text_size_text_x_small">@dimen/_12sdp</dimen>
+</resources>
