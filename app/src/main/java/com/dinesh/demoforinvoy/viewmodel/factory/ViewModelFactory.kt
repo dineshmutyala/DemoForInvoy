@@ -1,4 +1,4 @@
-package com.dinesh.demoforinvoy.viewmodel
+package com.dinesh.demoforinvoy.viewmodel.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

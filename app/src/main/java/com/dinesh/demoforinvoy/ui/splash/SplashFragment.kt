@@ -1,33 +1,52 @@
 package com.dinesh.demoforinvoy.ui.splash
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.dinesh.demoforinvoy.R
+import com.dinesh.demoforinvoy.ui.BaseDaggerFragment
 import com.dinesh.demoforinvoy.viewmodel.splash.SplashViewModel
-import dagger.android.support.DaggerFragment
-import javax.inject.Inject
 
-class SplashFragment : DaggerFragment() {
+class SplashFragment : BaseDaggerFragment<SplashViewModel>() {
 
     companion object {
         fun newInstance() = SplashFragment()
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel: SplashViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[SplashViewModel::class.java]
+    override fun viewModel(): SplashViewModel {
+        return ViewModelProvider(this, viewModelFactory)[SplashViewModel::class.java]
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+    override val fragmentLayoutId = R.layout.fragment_splash
+
+    override fun initViewBindings(view: View) {
+        super.initViewBindings(view)
     }
 
+    override fun initListeners() {
+        super.initListeners()
+    }
+
+    override fun attachListeners() {
+        super.attachListeners()
+    }
+
+    override fun setup() {
+        super.setup()
+    }
+
+    override fun setupObservers() {
+        super.setupObservers()
+    }
+
+    override fun clearListeners() {
+        super.clearListeners()
+    }
+
+    override fun clearViewBindings() {
+        super.clearViewBindings()
+    }
+
+    override fun clearReferences() {
+        super.clearReferences()
+    }
 }

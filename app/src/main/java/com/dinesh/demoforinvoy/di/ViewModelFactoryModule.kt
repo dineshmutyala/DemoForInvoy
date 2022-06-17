@@ -1,7 +1,7 @@
 package com.dinesh.demoforinvoy.di
 
 import androidx.lifecycle.ViewModelProvider
-import com.dinesh.demoforinvoy.viewmodel.ViewModelFactory
+import com.dinesh.demoforinvoy.viewmodel.factory.ViewModelFactory
 import dagger.Binds
 import dagger.Module
 

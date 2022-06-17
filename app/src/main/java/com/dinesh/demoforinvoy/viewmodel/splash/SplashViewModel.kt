@@ -1,8 +1,8 @@
 package com.dinesh.demoforinvoy.viewmodel.splash
 
-import androidx.lifecycle.ViewModel
+import com.dinesh.demoforinvoy.viewmodel.BaseViewModel
 import javax.inject.Inject
 
-class SplashViewModel @Inject constructor(): ViewModel() {
-    // TODO: Implement the ViewModel
+class SplashViewModel @Inject constructor(): BaseViewModel() {
+    override fun clearReferences() = Unit
 }

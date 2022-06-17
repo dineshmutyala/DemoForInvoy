@@ -31,6 +31,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -53,6 +57,11 @@ dependencies {
 
     //Material Design
     implementation 'com.google.android.material:material:1.6.1'
+
+    // RX
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
+    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 
     // Dagger
     implementation "com.google.dagger:dagger:$dagger_version"
