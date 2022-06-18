@@ -59,7 +59,7 @@ class IntroViewModel @Inject constructor(
 
         schedulerProvider.io().scheduleDirect(
             { navigationTrigger.postValue(LiveDataResponse(data = true, isLoading = false)) },
-            1000,
+            2000,
             TimeUnit.MILLISECONDS
         )
     }

@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/ic_google.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/intro_buttons_bg.xml" value="0.2135" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.39237213134765625" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_intro.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.37604166666666666" />
       </map>

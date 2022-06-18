@@ -81,7 +81,7 @@ class IntroFragment : BaseDaggerFragment<IntroViewModel>() {
         }
 
         viewModel.getNavigationTrigger().observe(viewLifecycleOwner) {
-//            findNavController().navigate()
+            findNavController().navigate(IntroFragmentDirections.actionIntroFragmentToHomeFragment())
         }
     }
 
