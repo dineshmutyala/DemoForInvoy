@@ -2,6 +2,7 @@ package com.dinesh.demoforinvoy.di.buildermodules
 
 import com.dinesh.demoforinvoy.di.home.HomeModule
 import com.dinesh.demoforinvoy.di.intro.IntroModule
+import com.dinesh.demoforinvoy.di.wieghtinput.WeightInputModule
 import com.dinesh.demoforinvoy.ui.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -10,7 +11,8 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivitiesBuilderModule {
     @ContributesAndroidInjector(modules = [
         IntroModule::class,
-        HomeModule::class
+        HomeModule::class,
+        WeightInputModule::class
     ])
     abstract fun bindMainActivity(): MainActivity
 }

@@ -1,5 +1,6 @@
 package com.dinesh.demoforinvoy.ui
 
+import android.animation.Animator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -86,6 +87,26 @@ abstract class BaseDaggerFragment<T: BaseViewModel>: DaggerFragment() {
         super.onDestroy()
         clearReferences()
         viewModel.clearReferences()
+    }
+
+    protected fun fadeInView(view: View, duration: Long = 250L) {
+        view.apply {
+            alpha = 0f
+            visibility = View.VISIBLE
+            animate().alpha(1f).setDuration(duration).start()
+        }
+    }
+
+    protected fun fadeOutView(view: View, duration: Long = 250L, onFadeOutComplete: () -> Unit) {
+        view.animate()
+            .alpha(0f)
+            .setDuration(duration)
+            .setListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) = Unit
+                override fun onAnimationCancel(animation: Animator?) = Unit
+                override fun onAnimationRepeat(animation: Animator?) = Unit
+                override fun onAnimationEnd(animation: Animator?) = onFadeOutComplete()
+            })
     }
 
     protected open fun clearReferences() = Unit

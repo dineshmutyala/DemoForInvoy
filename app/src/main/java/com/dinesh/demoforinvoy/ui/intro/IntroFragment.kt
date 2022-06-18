@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dinesh.demoforinvoy.R
@@ -35,6 +36,11 @@ class IntroFragment : BaseDaggerFragment<IntroViewModel>() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         getActivityResultsLauncher()
         return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? AppCompatActivity)?.supportActionBar?.hide()
     }
 
     override fun initViewBindings(view: View) {
@@ -114,14 +120,6 @@ class IntroFragment : BaseDaggerFragment<IntroViewModel>() {
         binding?.signInButton?.also { fadeInView(it)}
     }
 
-    private fun fadeInView(view: View) {
-        view.apply {
-            alpha = 0f
-            visibility = View.VISIBLE
-            animate().alpha(1f).setDuration(250L).start()
-        }
-    }
-
     private fun fadeInWelcomeText() {
         binding?.welcomeMessage?.also { fadeInView(it)}
     }
@@ -138,18 +136,6 @@ class IntroFragment : BaseDaggerFragment<IntroViewModel>() {
 
     private fun fadeOutSignInButton() {
         binding?.signInButton?.also { fadeOutView(it) {} }
-    }
-
-    private fun fadeOutView(view: View, onFadeOutComplete: () -> Unit) {
-        view.animate()
-            .alpha(0f)
-            .setDuration(250)
-            .setListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator?) = Unit
-                override fun onAnimationCancel(animation: Animator?) = Unit
-                override fun onAnimationRepeat(animation: Animator?) = Unit
-                override fun onAnimationEnd(animation: Animator?) = onFadeOutComplete()
-            })
     }
 
     override fun clearListeners() {

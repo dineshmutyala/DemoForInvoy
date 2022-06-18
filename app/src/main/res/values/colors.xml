@@ -1,15 +1,27 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <resources>
-  <color name="applicationBackground">#C6CDF6</color>
-  <color name="primaryColor">#8cc276</color>
-  <color name="primaryLightColor">#bdf5a6</color>
-  <color name="primaryDarkColor">#5d9149</color>
-  <color name="secondaryColor">#fce4ec</color>
-  <color name="secondaryLightColor">#ffffff</color>
-  <color name="secondaryDarkColor">#c9b2ba</color>
+  <color name="applicationBackground">#FFFBE6</color>
+  <color name="transparent_background">#DDFFFBE6</color>
+
+  <color name="colorPrimary">#008577</color>
+  <color name="colorPrimaryDark">#00574B</color>
+  <color name="colorAccent">@color/basil_orange</color>
+
+  <color name="status_bar_color">#ECE9d5</color>
+
   <color name="primaryTextColor">#424242</color>
+  <color name="buttonTextColor">#FFFBE6</color>
   <color name="secondaryTextColor">#000000</color>
+
+  <color name="disabledColor">#818181</color>
+
   <color name="white">#ffffff</color>
   <color name="black">#000000</color>
+
+  <color name="basil_orange">#FD5523</color>
+  <color name="basil_green_800">#356859</color>
+  <color name="basil_green_500">#37966F</color>
+  <color name="basil_green_100">#B9E4C9</color>
+  <color name="basil_green_50">#F1f5df</color>
 
 </resources>
