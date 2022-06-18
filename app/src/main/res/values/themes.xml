@@ -33,6 +33,5 @@
         <item name="customTextTextXS">@style/CustomText.Text.XS</item>
         <item name="customTextTextXSBold">@style/CustomText.Text.XS.Bold</item>
 
-
     </style>
 </resources>

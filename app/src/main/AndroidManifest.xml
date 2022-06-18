@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.dinesh.demoforinvoy">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".DemoForInvoyApplication"
         android:allowBackup="true"

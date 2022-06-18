@@ -2,12 +2,18 @@ package com.dinesh.demoforinvoy.di
 
 import android.app.Application
 import android.content.Context
+import com.dinesh.demoforinvoy.core.StringUtils
+import com.dinesh.demoforinvoy.core.preferences.UserPersistence
+import com.dinesh.demoforinvoy.core.preferences.UserPersistenceImpl
+import com.dinesh.demoforinvoy.di.core.SchedulerProviderModule
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [
+    SchedulerProviderModule::class
+])
 object AppModule {
 
     @Provides
@@ -18,4 +24,11 @@ object AppModule {
     @Provides
     @Named(DINames.USER_PERSISTENCE_FILE_NAME)
     fun provideUserPersistenceFileName(): String = "sd8asd98afad0a.json"
+
+    @Provides
+    fun provideUserPersistence(userPersistenceImpl: UserPersistenceImpl): UserPersistence = userPersistenceImpl
+
+    @Provides
+    @Singleton
+    fun provideStringUtils(@AppContext appContext: Context): StringUtils = StringUtils(appContext)
 }

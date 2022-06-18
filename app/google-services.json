@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1051522951963",
+    "project_id": "weighttrackerdemo",
+    "storage_bucket": "weighttrackerdemo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051522951963:android:0268708cfd00eebfd0c1be",
+        "android_client_info": {
+          "package_name": "com.dinesh.demoforinvoy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051522951963-2fgn9n90bvosag3uhv66i4h71t2aj83t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dinesh.demoforinvoy",
+            "certificate_hash": "c37205cd174289c833f7964781435adaa95861d5"
+          }
+        },
+        {
+          "client_id": "1051522951963-9ca8ci5lumfs1grir1o76ibp8n5v4ngh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeXU2AfJ_bAzrb9C28PxvVrZF8IJy13I4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051522951963-9ca8ci5lumfs1grir1o76ibp8n5v4ngh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
