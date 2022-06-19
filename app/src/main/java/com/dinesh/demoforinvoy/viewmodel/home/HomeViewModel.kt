@@ -2,17 +2,22 @@ package com.dinesh.demoforinvoy.viewmodel.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.dinesh.demoforinvoy.R
 import com.dinesh.demoforinvoy.core.StringUtils
+import com.dinesh.demoforinvoy.core.SynchronizedTimeUtils
 import com.dinesh.demoforinvoy.core.livedata.LiveDataResponse
 import com.dinesh.demoforinvoy.core.scheduler.SchedulerProvider
+import com.dinesh.demoforinvoy.datamodels.weightlog.WeightLog
+import com.dinesh.demoforinvoy.repositories.WeightJournalRepository
 import com.dinesh.demoforinvoy.viewmodel.BaseViewModel
 import java.util.*
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val stringUtils: StringUtils,
-    private val schedulerProvider: SchedulerProvider
+    private val schedulerProvider: SchedulerProvider,
+    private val weightJournalRepository: WeightJournalRepository
 ): BaseViewModel() {
 
     private val wishText = MutableLiveData<LiveDataResponse<String>>(LiveDataResponse(isLoading = true))
@@ -35,7 +40,22 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun prepareWeightToday() {
-        enterWeightTrigger.postValue(LiveDataResponse(data = true, isLoading = false))
+        var observer: Observer<WeightLog?>? = null
+        val weightLogLiveData = weightJournalRepository.getWeightLog(
+            SynchronizedTimeUtils.getFormattedDateSlashedMDY(Date(), TimeZone.getDefault())
+        )
+        observer = Observer<WeightLog?> {
+            observer?.let { observer -> weightLogLiveData.removeObserver(observer) }
+            if (it == null) {
+                enterWeightTrigger.postValue(LiveDataResponse(data = true, isLoading = false))
+            } else {
+                weightTodayTrigger.postValue(LiveDataResponse(
+                    data = stringUtils.getString(R.string.weight_today, it.weight),
+                    isLoading = false
+                ))
+            }
+        }
+        weightLogLiveData.observeForever(observer)
     }
 
     fun getWishTextData(): LiveData<LiveDataResponse<String>> = wishText

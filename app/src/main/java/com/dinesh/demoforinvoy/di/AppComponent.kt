@@ -3,6 +3,7 @@ package com.dinesh.demoforinvoy.di
 import android.app.Application
 import com.dinesh.demoforinvoy.DemoForInvoyApplication
 import com.dinesh.demoforinvoy.di.buildermodules.ActivitiesBuilderModule
+import com.dinesh.demoforinvoy.di.roompersistence.RoomDataBaseModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -14,7 +15,8 @@ import javax.inject.Singleton
     modules = [
         AndroidInjectionModule::class,
         ActivitiesBuilderModule::class,
-        AppModule::class
+        AppModule::class,
+        RoomDataBaseModule::class
     ],
     dependencies = []
 )

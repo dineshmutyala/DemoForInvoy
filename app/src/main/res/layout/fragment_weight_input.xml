@@ -59,4 +59,9 @@
         android:background="@drawable/cta_button_bg"
         android:enabled="false"/>
 
+    <include
+        layout="@layout/fullscreen_blocking_loading"
+        android:visibility="gone"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

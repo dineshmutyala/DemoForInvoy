@@ -41,11 +41,6 @@
             android:name="forDate"
             app:argType="string"
             />
-        <argument
-            android:name="isUpdate"
-            app:argType="boolean"
-            android:defaultValue="false"
-            />
     </fragment>
 
 </navigation>

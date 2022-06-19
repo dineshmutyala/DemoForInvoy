@@ -55,6 +55,11 @@ class SynchronizedTimeUtils {
         }
 
         @Synchronized
+        fun parseDateSlashedMDY(dateString: String): Date? {
+            return tryParseDateTime(getDateFormat(FORMAT_DATE_SLASHED_MDY), dateString)
+        }
+
+        @Synchronized
         private fun tryParseDateTime(dateFormatter: DateFormat, dateTime: String) = dateFormatter.parseOrNull(dateTime)
 
         @Synchronized

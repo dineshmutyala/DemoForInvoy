@@ -13,7 +13,7 @@
     <string name="good_afternoon">Good afternoon!</string>
     <string name="good_evening">Good evening!</string>
     <string name="enter_weight">Enter your weight for today</string>
-    <string name="weight_today">Your weight for today: %1$s</string>
+    <string name="weight_today">Your weight for today: %1$s lbs</string>
     <string name="enter_your_weight_on">Enter your weight on %1$s</string>
     <string name="hint_enter_weight">Enter weight</string>
     <string name="lbs">lbs</string>

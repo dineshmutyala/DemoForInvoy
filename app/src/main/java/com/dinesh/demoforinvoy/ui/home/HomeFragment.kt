@@ -44,6 +44,7 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>() {
         super.attachListeners()
         val binding = binding.guardAgainstNull { return }
         binding.enterWeight.setOnClickListener { inputWeightFromUser() }
+        binding.weightToday.setOnClickListener { inputWeightFromUser() }
     }
 
     private fun inputWeightFromUser() {
