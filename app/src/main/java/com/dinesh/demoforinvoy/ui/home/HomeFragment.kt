@@ -7,13 +7,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dinesh.demoforinvoy.R
 import com.dinesh.demoforinvoy.core.SynchronizedTimeUtils
+import com.dinesh.demoforinvoy.core.misc.graph.GraphStyler
 import com.dinesh.demoforinvoy.core.misc.guardAgainstNull
 import com.dinesh.demoforinvoy.databinding.FragmentHomeBinding
 import com.dinesh.demoforinvoy.ui.BaseDaggerFragment
 import com.dinesh.demoforinvoy.viewmodel.home.HomeViewModel
 import java.util.*
+import javax.inject.Inject
 
 class HomeFragment: BaseDaggerFragment<HomeViewModel>() {
+
+    @Inject
+    lateinit var graphStyler: GraphStyler
 
     private var binding: FragmentHomeBinding? = null
 
@@ -57,6 +62,7 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>() {
 
     override fun setup() {
         super.setup()
+        binding?.lineGraph?.also { graphStyler.styleChart(it) }
     }
 
     override fun setupObservers() {
@@ -67,16 +73,29 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>() {
 
         viewModel.getEnterWeightTodayTrigger().observe(viewLifecycleOwner) {
             val binding = binding.guardAgainstNull { return@observe }
-            fadeOutView(binding.weightToday) {
+            if (it.data == true) {
+                fadeOutView(binding.weightToday) {}
                 fadeInView(binding.enterWeight)
             }
         }
 
         viewModel.getWeightTodayData().observe(viewLifecycleOwner) {
             val binding = binding.guardAgainstNull { return@observe }
-            binding.weightToday.text = it.data
-            fadeOutView(binding.enterWeight) {
+            if (it.data != null) {
+                binding.weightToday.text = it.data
+                fadeOutView(binding.enterWeight) {}
                 fadeInView(binding.weightToday)
+            }
+        }
+
+        viewModel.getPastWeekWeightsData().observe(viewLifecycleOwner) { response ->
+            when {
+                response.data != null -> {
+                    binding?.lineGraph?.also {
+                        it.data = response.data
+                        it.invalidate()
+                    }
+                }
             }
         }
     }

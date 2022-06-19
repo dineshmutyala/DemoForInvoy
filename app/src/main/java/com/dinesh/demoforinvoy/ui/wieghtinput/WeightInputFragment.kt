@@ -69,6 +69,7 @@ class WeightInputFragment: BaseDaggerFragment<WeightInputViewModel>() {
                     stopLoading()
                     binding?.weightInput?.setText(it.data)
                 }
+                !it.isLoading -> stopLoading()
             }
         }
 

@@ -16,6 +16,15 @@ interface WeightJournalDao {
     @Query("SELECT * FROM ${RoomConstants.WEIGHTS_TABLE_NAME} WHERE weightOn = :forDate LIMIT 1")
     fun getWeightLog(forDate: String): LiveData<WeightLog?>
 
-    @Query("SELECT * FROM ${RoomConstants.WEIGHTS_TABLE_NAME} ORDER BY date DESC")
+    @Query("SELECT * FROM ${RoomConstants.WEIGHTS_TABLE_NAME}")
     fun fetchAllLogs(): LiveData<List<WeightLog>>
+
+    @Query("SELECT * FROM ${RoomConstants.WEIGHTS_TABLE_NAME} ORDER BY date DESC LIMIT :numDays")
+    fun fetchLogsForPast(numDays: Int): LiveData<List<WeightLog>>
+
+    @Query("SELECT * FROM ${RoomConstants.WEIGHTS_TABLE_NAME}")
+    fun fetchAllLogsSync(): List<WeightLog>
+
+    @Query("SELECT * FROM ${RoomConstants.WEIGHTS_TABLE_NAME} ORDER BY date DESC LIMIT :numDays")
+    fun fetchLogsForPastSync(numDays: Int): List<WeightLog>
 }

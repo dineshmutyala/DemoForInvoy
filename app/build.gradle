@@ -93,10 +93,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
 
-    // ROom db
+    // Room db
     implementation "androidx.room:room-common:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
+
+    // MPAndroidCharts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     // Tests
     testImplementation 'junit:junit:4.13.2'
