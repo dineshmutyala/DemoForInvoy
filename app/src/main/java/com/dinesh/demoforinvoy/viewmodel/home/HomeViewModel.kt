@@ -15,6 +15,11 @@ import com.dinesh.demoforinvoy.viewmodel.BaseViewModel
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.*
 import javax.inject.Inject
 
@@ -71,7 +76,7 @@ class HomeViewModel @Inject constructor(
 
     private fun preparePastWeekWeightsData() {
         schedulerProvider.io().scheduleDirect {
-            weightJournalRepository.getWeightLogsForPastSync(7).also  { listWeights ->
+            weightJournalRepository.getWeightLogsForPast(7).also  { listWeights ->
                 listWeights.reversed().map { log ->
                     Entry(log.date?.time?.toFloat() ?: 0f, log.weight.toFloat())
                 }.also {
@@ -87,6 +92,38 @@ class HomeViewModel @Inject constructor(
     fun getWeightTodayData(): LiveData<LiveDataResponse<String>> = weightTodayTrigger
     fun getEnterWeightTodayTrigger(): LiveData<LiveDataResponse<Boolean>> = enterWeightTrigger
     fun getPastWeekWeightsData(): LiveData<LiveDataResponse<LineData>> = pastWeekWeights
+
+    fun generateTestData() {
+        CoroutineScope(Dispatchers.IO).launch {
+
+            weightJournalRepository.clearAllWeightLog()
+
+            val now = LocalDate.now()
+            var date = now.minusMonths(2)
+
+            while (date.isBefore(now)) {
+                Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                WeightLog(
+                    weightOn = SynchronizedTimeUtils.getFormattedDateSlashedMDY(
+                        Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        TimeZone.getDefault()
+                    ),
+                    weight = (Random().nextInt(30) + 140).toString()
+                ).also { weightJournalRepository.addWeightLog(it) }
+                date = date.plusDays(1)
+            }
+
+            CoroutineScope(Dispatchers.Main).launch { refreshData() }
+
+        }
+    }
+
+    fun clearAllData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            weightJournalRepository.clearAllWeightLog()
+            CoroutineScope(Dispatchers.Main).launch { refreshData() }
+        }
+    }
 
     override fun clearReferences() {
         pastWeekWeightsObserver?.let { pastWeekWeightLiveData?.removeObserver(it) }

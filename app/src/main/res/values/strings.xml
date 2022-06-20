@@ -18,5 +18,8 @@
     <string name="hint_enter_weight">Enter weight</string>
     <string name="lbs">lbs</string>
     <string name="update">Update weight</string>
+    <string name="generate_test_data">Generate test data</string>
+    <string name="sign_out">Sign out</string>
+    <string name="clear_all_data">Clear all data</string>
 
 </resources>

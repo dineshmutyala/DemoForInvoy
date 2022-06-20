@@ -1,8 +1,11 @@
 package com.dinesh.demoforinvoy.ui.home
 
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dinesh.demoforinvoy.R
@@ -15,7 +18,7 @@ import com.dinesh.demoforinvoy.viewmodel.home.HomeViewModel
 import java.util.*
 import javax.inject.Inject
 
-class HomeFragment: BaseDaggerFragment<HomeViewModel>() {
+class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
 
     @Inject
     lateinit var graphStyler: GraphStyler
@@ -31,8 +34,6 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>() {
         super.onResume()
         (activity as? AppCompatActivity)?.supportActionBar?.apply {
             show()
-            displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-            setCustomView(R.layout.custom_action_bar_view)
         }
     }
 
@@ -60,9 +61,22 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>() {
         )
     }
 
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_home, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.menuOptionGenerateData -> viewModel.generateTestData()
+            R.id.menuOptionClearData -> viewModel.clearAllData()
+        }
+        return true
+    }
+
     override fun setup() {
         super.setup()
         binding?.lineGraph?.also { graphStyler.styleChart(it) }
+        requireActivity().addMenuProvider(this, viewLifecycleOwner)
     }
 
     override fun setupObservers() {
