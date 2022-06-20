@@ -24,5 +24,12 @@
     <string name="a11y_setting_button">Setting Button</string>
     <string name="a11y_back_button">Back Button</string>
     <string name="a11y_expand_graph">Expand graph - View Full</string>
+    <string name="a11y_go_to_first_page">Go to first page</string>
+    <string name="a11y_go_to_previous_page">Go to previous page</string>
+    <string name="a11y_go_to_last_page">Go to last page</string>
+    <string name="a11y_go_to_next_page">Go to next page</string>
+    <string name="a11y_switch_graph_list">Switch to Graph / Switch to List</string>
+    <string name="x_lbs">%1$s lbs</string>
+    <string name="on_y">on %1$s</string>
 
 </resources>

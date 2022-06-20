@@ -32,5 +32,7 @@ interface WeightJournalDao {
 
     @Query("DELETE FROM ${RoomConstants.WEIGHTS_TABLE_NAME}")
     fun clearAllWeightLog()
+    @Query("SELECT * FROM ${RoomConstants.WEIGHTS_TABLE_NAME} ORDER BY date DESC LIMIT :limit OFFSET :offset")
+    fun getWeightLogs(limit: Int, offset: Int): List<WeightLog>
 
 }

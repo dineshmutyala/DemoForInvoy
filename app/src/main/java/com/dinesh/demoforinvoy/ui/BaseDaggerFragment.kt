@@ -105,7 +105,10 @@ abstract class BaseDaggerFragment<T: BaseViewModel>: DaggerFragment() {
                 override fun onAnimationStart(animation: Animator?) = Unit
                 override fun onAnimationCancel(animation: Animator?) = Unit
                 override fun onAnimationRepeat(animation: Animator?) = Unit
-                override fun onAnimationEnd(animation: Animator?) = onFadeOutComplete()
+                override fun onAnimationEnd(animation: Animator?) {
+                    view.visibility = View.GONE
+                    onFadeOutComplete()
+                }
             })
     }
 

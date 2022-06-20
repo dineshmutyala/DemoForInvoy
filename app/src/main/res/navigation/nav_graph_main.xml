@@ -31,6 +31,15 @@
             app:exitAnim="@anim/fragment_transaction_slide_out_left"
             app:popEnterAnim="@anim/fragment_transaction_slide_in_left"
             app:popExitAnim="@anim/fragment_transaction_slide_out_right" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_viewLogsFragment"
+            app:destination="@id/viewLogsFragment"
+            app:enterAnim="@anim/fragment_transaction_slide_in_right"
+            app:exitAnim="@anim/fragment_transaction_slide_out_left"
+            app:popEnterAnim="@anim/fragment_transaction_slide_in_left"
+            app:popExitAnim="@anim/fragment_transaction_slide_out_right" />
+
     </fragment>
 
     <fragment
@@ -42,5 +51,10 @@
             app:argType="string"
             />
     </fragment>
+
+    <fragment
+        android:id="@+id/viewLogsFragment"
+        android:name="com.dinesh.demoforinvoy.ui.viewlogs.ViewLogsFragment"
+        tools:layout="@layout/fragment_view_logs"/>
 
 </navigation>

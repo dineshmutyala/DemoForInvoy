@@ -51,7 +51,9 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
         val binding = binding.guardAgainstNull { return }
         binding.enterWeight.setOnClickListener { inputWeightFromUser() }
         binding.weightToday.setOnClickListener { inputWeightFromUser() }
-        binding.expandGraph.setOnClickListener { }
+        binding.expandGraph.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToViewLogsFragment())
+        }
     }
 
     private fun inputWeightFromUser() {

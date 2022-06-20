@@ -35,8 +35,6 @@ class HomeViewModel @Inject constructor(
     private val weightTodayTrigger = MutableLiveData<LiveDataResponse<String>>()
     private val enterWeightTrigger = MutableLiveData<LiveDataResponse<Boolean>>()
 
-    private var pastWeekWeightsObserver: Observer<List<WeightLog>>? = null
-    private var pastWeekWeightLiveData: LiveData<List<WeightLog>>? = null
     private val pastWeekWeights = MutableLiveData<LiveDataResponse<LineData>>()
 
     override fun refreshData() {
@@ -126,9 +124,6 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun clearReferences() {
-        pastWeekWeightsObserver?.let { pastWeekWeightLiveData?.removeObserver(it) }
-        pastWeekWeightsObserver = null
-        pastWeekWeightLiveData = null
     }
 
 }

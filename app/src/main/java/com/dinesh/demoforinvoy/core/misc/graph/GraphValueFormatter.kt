@@ -3,6 +3,7 @@ package com.dinesh.demoforinvoy.core.misc.graph
 import com.dinesh.demoforinvoy.core.SynchronizedTimeUtils
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import timber.log.Timber
 import java.util.*
@@ -22,8 +23,6 @@ class GraphValueFormatter @Inject constructor(): ValueFormatter() {
             SynchronizedTimeUtils.getFormattedDateSlashedMD(Date(value.toLong()), TimeZone.getDefault())
         } else {
             super.getAxisLabel(value, axis)
-        }.also {
-            Timber.d("Dinesh: Returning - $it; ${axis?.mEntryCount}")
         }
     }
 }

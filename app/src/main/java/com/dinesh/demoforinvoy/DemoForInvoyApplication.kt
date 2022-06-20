@@ -1,7 +1,6 @@
 package com.dinesh.demoforinvoy
 
 import com.dinesh.demoforinvoy.di.DaggerAppComponent
-import com.google.firebase.FirebaseApp
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import timber.log.Timber

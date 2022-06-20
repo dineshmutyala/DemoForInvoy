@@ -27,5 +27,7 @@ class WeightJournalRepository @Inject constructor(
 
     suspend fun addWeightLog(weightLog: WeightLog): Long = weightJournalDao.addWeightLog(weightLog)
 
+    fun getWeightLogs(limit: Int, offset: Int): List<WeightLog> = weightJournalDao.getWeightLogs(limit, offset)
+
     fun clearAllWeightLog() = weightJournalDao.clearAllWeightLog()
 }
