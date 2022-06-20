@@ -66,7 +66,7 @@ class ViewLogsViewModel @Inject constructor(
     private fun fetchWeightsDataForGraph(forPage: Int) {
         graphWeightsData.postValue(LiveDataResponse(null, isLoading = true))
         schedulerProvider.io().scheduleDirect {
-            weightJournalRepository.getWeightLogs(sizePerPage, (forPage - 1) * sizePerPage).also { listWeights ->
+            weightJournalRepository.getWeightLogs(sizePerPage + 1, (forPage - 1) * sizePerPage).also { listWeights ->
                 if (listWeights.size < sizePerPage) {
                     canFetchMore = false
                 }
@@ -75,9 +75,17 @@ class ViewLogsViewModel @Inject constructor(
                     canNavigateBack.postValue(LiveDataResponse(false, isLoading = false))
                     graphWeightsData.postValue(LiveDataResponse(null, isLoading = false))
                 } else {
-                    listWeights.reversed().map { log ->
-                        Entry(log.date?.time?.toFloat() ?: 0f, log.weight.toFloat())
-                    }.also {
+
+                    val differences = sequence {
+                        for (i in 0 until listWeights.size - 1) {
+                            yield(listWeights[i].weight.toFloat() - listWeights[i + 1].weight.toFloat())
+                        }
+                        yield(0f)
+                    }.toList().reversed()
+
+                    listWeights.reversed().mapIndexed { index, log ->
+                        Entry(log.date?.time?.toFloat() ?: 0f, log.weight.toFloat(), differences[index])
+                    }.drop(1).also {
                         graphStyler.styleLineData(LineDataSet(it, "")).also { lineDataSet ->
                             graphWeightsData.postValue(LiveDataResponse(LineData(lineDataSet), isLoading = false))
                         }

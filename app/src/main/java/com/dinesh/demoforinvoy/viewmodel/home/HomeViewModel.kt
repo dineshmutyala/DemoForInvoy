@@ -74,10 +74,17 @@ class HomeViewModel @Inject constructor(
 
     private fun preparePastWeekWeightsData() {
         schedulerProvider.io().scheduleDirect {
-            weightJournalRepository.getWeightLogsForPast(7).also  { listWeights ->
-                listWeights.reversed().map { log ->
-                    Entry(log.date?.time?.toFloat() ?: 0f, log.weight.toFloat())
-                }.also {
+            weightJournalRepository.getWeightLogsForPast(8).also  { listWeights ->
+                val differences = sequence {
+                    for (i in 0 until listWeights.size - 1) {
+                        yield(listWeights[i].weight.toFloat() - listWeights[i + 1].weight.toFloat())
+                    }
+                    yield(0f)
+                }.toList().reversed()
+
+                listWeights.reversed().mapIndexed { index, log ->
+                    Entry(log.date?.time?.toFloat() ?: 0f, log.weight.toFloat(), differences[index])
+                }.drop(1).also {
                     graphStyler.styleLineData(LineDataSet(it, "")).also { lineDataSet ->
                         pastWeekWeights.postValue(LiveDataResponse(LineData(lineDataSet)))
                     }
