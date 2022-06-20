@@ -51,6 +51,7 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
         val binding = binding.guardAgainstNull { return }
         binding.enterWeight.setOnClickListener { inputWeightFromUser() }
         binding.weightToday.setOnClickListener { inputWeightFromUser() }
+        binding.expandGraph.setOnClickListener { }
     }
 
     private fun inputWeightFromUser() {
@@ -88,7 +89,7 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
         viewModel.getEnterWeightTodayTrigger().observe(viewLifecycleOwner) {
             val binding = binding.guardAgainstNull { return@observe }
             if (it.data == true) {
-                fadeOutView(binding.weightToday) {}
+                fadeOutView(binding.weightToday)
                 fadeInView(binding.enterWeight)
             }
         }
@@ -97,7 +98,7 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
             val binding = binding.guardAgainstNull { return@observe }
             if (it.data != null) {
                 binding.weightToday.text = it.data
-                fadeOutView(binding.enterWeight) {}
+                fadeOutView(binding.enterWeight)
                 fadeInView(binding.weightToday)
             }
         }
@@ -108,6 +109,10 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
                     binding?.lineGraph?.also {
                         it.data = response.data
                         it.invalidate()
+                        binding?.noDataAvailable?.visibility = if(response.data.entryCount == 0) View.VISIBLE
+                            else View.GONE
+                        binding?.expandGraph?.visibility = if(response.data.entryCount == 0) View.INVISIBLE
+                        else View.VISIBLE
                     }
                 }
             }

@@ -7,8 +7,6 @@
     <string name="sign_in_messsage">Hello, %1$s!</string>
 
     <string name="google_web_client_id">1051522951963-9ca8ci5lumfs1grir1o76ibp8n5v4ngh.apps.googleusercontent.com</string>
-    <string name="a11y_setting_button">Setting Button</string>
-    <string name="a11y_back_button">Back Button</string>
     <string name="good_morning">Good morning!</string>
     <string name="good_afternoon">Good afternoon!</string>
     <string name="good_evening">Good evening!</string>
@@ -21,5 +19,10 @@
     <string name="generate_test_data">Generate test data</string>
     <string name="sign_out">Sign out</string>
     <string name="clear_all_data">Clear all data</string>
+    <string name="no_data_to_show">No Data to show</string>
+
+    <string name="a11y_setting_button">Setting Button</string>
+    <string name="a11y_back_button">Back Button</string>
+    <string name="a11y_expand_graph">Expand graph - View Full</string>
 
 </resources>

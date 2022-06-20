@@ -97,7 +97,7 @@ abstract class BaseDaggerFragment<T: BaseViewModel>: DaggerFragment() {
         }
     }
 
-    protected fun fadeOutView(view: View, duration: Long = 250L, onFadeOutComplete: () -> Unit) {
+    protected fun fadeOutView(view: View, duration: Long = 250L, onFadeOutComplete: () -> Unit = {}) {
         view.animate()
             .alpha(0f)
             .setDuration(duration)

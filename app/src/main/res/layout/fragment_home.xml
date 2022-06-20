@@ -55,6 +55,19 @@
         app:constraint_referenced_ids="enterWeight,weightToday"
         app:barrierDirection="bottom"/>
 
+    <ImageView
+        android:id="@+id/expandGraph"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toBottomOf="@id/barrier"
+        app:layout_constraintBottom_toTopOf="@id/lineGraph"
+        app:layout_constraintEnd_toEndOf="@id/lineGraph"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:src="@drawable/ic_expand"
+        android:scaleType="center"
+        android:visibility="invisible"
+        android:contentDescription="@string/a11y_expand_graph"/>
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineGraph"
         android:layout_width="0dp"
@@ -62,8 +75,18 @@
         app:layout_constraintHeight_min="@dimen/_250sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier"
-        android:layout_marginTop="@dimen/_16sdp"
+        app:layout_constraintTop_toBottomOf="@id/expandGraph"
         android:layout_marginHorizontal="@dimen/_24sdp"/>
 
+    <TextView
+        android:id="@+id/no_data_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/lineGraph"
+        app:layout_constraintBottom_toBottomOf="@id/lineGraph"
+        app:layout_constraintStart_toStartOf="@id/lineGraph"
+        app:layout_constraintEnd_toEndOf="@id/lineGraph"
+        android:text="@string/no_data_to_show"
+        style="?customTextTextS"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

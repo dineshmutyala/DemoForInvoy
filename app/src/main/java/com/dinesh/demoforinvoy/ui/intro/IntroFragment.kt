@@ -135,7 +135,7 @@ class IntroFragment : BaseDaggerFragment<IntroViewModel>() {
     }
 
     private fun fadeOutSignInButton() {
-        binding?.signInButton?.also { fadeOutView(it) {} }
+        binding?.signInButton?.also { fadeOutView(it) }
     }
 
     override fun clearListeners() {
