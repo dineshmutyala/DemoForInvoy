@@ -31,5 +31,6 @@
     <string name="a11y_switch_graph_list">Switch to Graph / Switch to List</string>
     <string name="x_lbs">%1$s lbs</string>
     <string name="on_y">on %1$s</string>
+    <string name="chat_with_your_health_coach">Chat with your health coach</string>
 
 </resources>

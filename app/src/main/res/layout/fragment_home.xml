@@ -89,4 +89,15 @@
         android:text="@string/no_data_to_show"
         style="?customTextTextS"
         android:visibility="gone"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/chatWithYourHealthCoach"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_chat"
+        android:contentDescription="@string/chat_with_your_health_coach"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

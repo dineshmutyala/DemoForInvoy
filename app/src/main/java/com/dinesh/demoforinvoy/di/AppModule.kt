@@ -3,6 +3,8 @@ package com.dinesh.demoforinvoy.di
 import android.app.Application
 import android.content.Context
 import com.dinesh.demoforinvoy.core.StringUtils
+import com.dinesh.demoforinvoy.core.accountmanager.AccountManager
+import com.dinesh.demoforinvoy.core.firestore.FireStoreManager
 import com.dinesh.demoforinvoy.core.misc.graph.GraphStyler
 import com.dinesh.demoforinvoy.core.misc.graph.GraphValueFormatter
 import com.dinesh.demoforinvoy.core.preferences.UserPersistence
@@ -40,4 +42,8 @@ object AppModule {
         @AppContext appContext: Context,
         valueFormatter: GraphValueFormatter
     ): GraphStyler = GraphStyler(appContext, valueFormatter)
+
+    @Provides
+    @Singleton
+    fun provideFireStoreManager(accountManager: AccountManager): FireStoreManager = FireStoreManager(accountManager)
 }

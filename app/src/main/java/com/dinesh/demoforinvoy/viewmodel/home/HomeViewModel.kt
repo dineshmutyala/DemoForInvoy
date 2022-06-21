@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.dinesh.demoforinvoy.R
 import com.dinesh.demoforinvoy.core.StringUtils
 import com.dinesh.demoforinvoy.core.SynchronizedTimeUtils
+import com.dinesh.demoforinvoy.core.firestore.FireStoreManager
 import com.dinesh.demoforinvoy.core.livedata.LiveDataResponse
 import com.dinesh.demoforinvoy.core.misc.graph.GraphStyler
 import com.dinesh.demoforinvoy.core.scheduler.SchedulerProvider
@@ -27,7 +28,8 @@ class HomeViewModel @Inject constructor(
     private val stringUtils: StringUtils,
     private val schedulerProvider: SchedulerProvider,
     private val weightJournalRepository: WeightJournalRepository,
-    private val graphStyler: GraphStyler
+    private val graphStyler: GraphStyler,
+    private val fireStoreManager: FireStoreManager
 ): BaseViewModel() {
 
     private val wishText = MutableLiveData<LiveDataResponse<String>>(LiveDataResponse(isLoading = true))

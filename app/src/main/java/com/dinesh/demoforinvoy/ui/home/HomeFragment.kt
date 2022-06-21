@@ -54,6 +54,9 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
         binding.expandGraph.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToViewLogsFragment())
         }
+        binding.chatWithYourHealthCoach.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToChatFragment())
+        }
     }
 
     private fun inputWeightFromUser() {

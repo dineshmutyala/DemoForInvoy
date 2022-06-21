@@ -1,5 +1,6 @@
 package com.dinesh.demoforinvoy.di.buildermodules
 
+import com.dinesh.demoforinvoy.di.chat.ChatModule
 import com.dinesh.demoforinvoy.di.home.HomeModule
 import com.dinesh.demoforinvoy.di.intro.IntroModule
 import com.dinesh.demoforinvoy.di.viewlogs.ViewLogsModule
@@ -14,7 +15,8 @@ abstract class ActivitiesBuilderModule {
         IntroModule::class,
         HomeModule::class,
         WeightInputModule::class,
-        ViewLogsModule::class
+        ViewLogsModule::class,
+        ChatModule::class
     ])
     abstract fun bindMainActivity(): MainActivity
 }

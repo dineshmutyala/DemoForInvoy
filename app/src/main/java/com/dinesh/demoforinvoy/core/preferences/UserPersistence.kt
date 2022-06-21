@@ -12,6 +12,7 @@ interface UserPersistence {
         const val KEY_USER_ID = "User_Id"
     }
     fun addToPersistence(key: String, value: Any): Boolean
+    fun removeFromPersistence(key: String)
 
     fun getString(key: String, default: String): String
     fun getStringOnNull(key: String): String?
@@ -57,6 +58,11 @@ class UserPersistenceImpl @Inject constructor(
             apply()
             return false
         }
+    }
+
+    @Synchronized
+    override fun removeFromPersistence(key: String) {
+        editor.remove(key).apply()
     }
 
     @Synchronized

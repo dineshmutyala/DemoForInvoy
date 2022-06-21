@@ -2,8 +2,11 @@ package com.dinesh.demoforinvoy.core.accountmanager
 
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.dinesh.demoforinvoy.R
 import com.dinesh.demoforinvoy.core.preferences.UserPersistence
+import com.dinesh.demoforinvoy.datamodels.user.User
 import com.dinesh.demoforinvoy.di.AppContext
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -14,6 +17,9 @@ import javax.inject.Inject
 class AccountManager @Inject constructor(private val userPersistence: UserPersistence) {
 
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+
+    private val userData: MutableLiveData<User> = MutableLiveData<User>()
+    private var currentUser: User? = null
 
     fun getSignInIntent(@AppContext context: Context): Intent {
         val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -50,7 +56,13 @@ class AccountManager @Inject constructor(private val userPersistence: UserPersis
         try {
             auth.signInWithCredential(GoogleAuthProvider.getCredential(idToken, null))
                 .addOnSuccessListener {
-                    successListener.invoke(it.user?.displayName ?: "")
+                    it.user?.let { user ->
+                        successListener.invoke(user.displayName ?: "")
+                        User(userId = user.uid, name = user.displayName ?: "").also { userObj ->
+                            currentUser = userObj
+                            userData.postValue(userObj)
+                        }
+                    }
                 }
                 .addOnFailureListener { failureListener.invoke(it) }
         } catch (e: Exception) {
@@ -65,4 +77,13 @@ class AccountManager @Inject constructor(private val userPersistence: UserPersis
     ) {
         googleAuthForFirebase(userId, successListener, failureListener)
     }
+
+    fun logOut() {
+        auth.signOut()
+        userPersistence.removeFromPersistence(UserPersistence.KEY_USER_ID)
+        userData.postValue(User.UNKNOWN_USER)
+    }
+
+    fun observeUserData(): LiveData<User> = userData
+    fun getCurrentUser(): User? = currentUser
 }
