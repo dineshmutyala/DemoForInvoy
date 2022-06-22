@@ -11,6 +11,7 @@ import com.dinesh.demoforinvoy.core.misc.graph.GraphStyler
 import com.dinesh.demoforinvoy.core.scheduler.SchedulerProvider
 import com.dinesh.demoforinvoy.datamodels.message.Message
 import com.dinesh.demoforinvoy.datamodels.weightlog.WeightLog
+import com.dinesh.demoforinvoy.repositories.AccountRepository
 import com.dinesh.demoforinvoy.repositories.ChatRepository
 import com.dinesh.demoforinvoy.repositories.WeightJournalRepository
 import com.dinesh.demoforinvoy.viewmodel.BaseViewModel
@@ -31,7 +32,8 @@ class HomeViewModel @Inject constructor(
     private val schedulerProvider: SchedulerProvider,
     private val weightJournalRepository: WeightJournalRepository,
     private val graphStyler: GraphStyler,
-    private val chatRepository: ChatRepository
+    private val chatRepository: ChatRepository,
+    private val accountRepository: AccountRepository
 ): BaseViewModel() {
 
     private val wishText = MutableLiveData<LiveDataResponse<String>>(LiveDataResponse(isLoading = true))
@@ -168,6 +170,10 @@ class HomeViewModel @Inject constructor(
             weightJournalRepository.clearAllWeightLog()
             CoroutineScope(Dispatchers.Main).launch { refreshData() }
         }
+    }
+
+    fun signOut() {
+        accountRepository.signOut()
     }
 
     override fun clearReferences() {

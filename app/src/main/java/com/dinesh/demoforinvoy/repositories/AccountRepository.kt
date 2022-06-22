@@ -43,4 +43,8 @@ class AccountRepository @Inject constructor(
             )
         }
     }
+
+    fun signOut() {
+        accountManager.logOut()
+    }
 }

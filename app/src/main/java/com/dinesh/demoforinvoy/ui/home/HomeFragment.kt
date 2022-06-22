@@ -106,6 +106,10 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
         when (menuItem.itemId) {
             R.id.menuOptionGenerateData -> viewModel.generateTestData()
             R.id.menuOptionClearData -> viewModel.clearAllData()
+            R.id.menuOptionSignOut -> {
+                viewModel.signOut()
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToIntroFragment())
+            }
         }
         return true
     }

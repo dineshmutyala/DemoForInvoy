@@ -26,7 +26,10 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_introFragment"
-            app:destination="@id/introFragment" />
+            app:destination="@id/introFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph_main.xml"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_weightInputFragment"
             app:destination="@id/weightInputFragment"
