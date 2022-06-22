@@ -5,7 +5,6 @@ import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.ValueFormatter
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
