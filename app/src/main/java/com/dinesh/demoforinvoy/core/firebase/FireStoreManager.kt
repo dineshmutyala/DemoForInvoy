@@ -2,6 +2,7 @@ package com.dinesh.demoforinvoy.core.firebase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.dinesh.demoforinvoy.core.firebase.AccountManager.Companion.USER_COACH
 import com.dinesh.demoforinvoy.core.misc.guardAgainstNull
 import com.dinesh.demoforinvoy.datamodels.message.Message
 import com.dinesh.demoforinvoy.datamodels.user.User
@@ -15,14 +16,11 @@ import javax.inject.Singleton
 @Singleton
 class FireStoreManager @Inject constructor(private val accountManager: AccountManager) {
 
-    companion object {
-        val USER_COACH = User(name = "Coach", userId = "leault3QkURTlm0HTE7VBu257uA2")
-    }
-
     private val instance: FirebaseFirestore by lazy { Firebase.firestore }
 
     private lateinit var userDocs: DocumentReference
     private lateinit var coachChatDocs: DocumentReference
+    private lateinit var coachConversationDocs: DocumentReference
 
     private var userData: LiveData<User>? = null
     private var userDataObserver: Observer<User>? = null
@@ -73,17 +71,30 @@ class FireStoreManager @Inject constructor(private val accountManager: AccountMa
             )
         ).addOnCompleteListener {
             when {
-                it.isSuccessful -> onSuccess(
-                    Message(
-                        id = it.result.id,
-                        message = message,
-                        sentOn = sentOn,
-                        isSentMessage = true
+                it.isSuccessful -> {
+                    onSuccess(
+                        Message(
+                            id = it.result.id,
+                            message = message,
+                            sentOn = sentOn,
+                            isSentMessage = true
+                        )
                     )
-                )
+                    addCoachConversationToDb()
+                }
                 it.exception != null -> onFailure()
             }
         }
+    }
+
+    private fun addCoachConversationToDb() {
+        val currentUser = accountManager.getCurrentUser().guardAgainstNull { return }
+
+        if (!::coachConversationDocs.isInitialized) {
+            coachConversationDocs = instance.document("coach/${USER_COACH.userId}/conversations/${currentUser.userId}")
+        }
+
+        coachConversationDocs.set(mapOf("temp" to true), SetOptions.merge())
     }
 
     fun getMessages(forPage: Int, onSuccess: (List<Message>) -> Unit, onFailure: () -> Unit) {

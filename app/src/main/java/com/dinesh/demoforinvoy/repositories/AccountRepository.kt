@@ -6,13 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dinesh.demoforinvoy.core.firebase.AccountManager
 import com.dinesh.demoforinvoy.core.livedata.LiveDataResponse
+import com.dinesh.demoforinvoy.datamodels.user.User
 import javax.inject.Inject
 
 class AccountRepository @Inject constructor(
     private val accountManager: AccountManager
 ) {
-    fun validateUserSignIn(userId: String): LiveData<LiveDataResponse<String>> {
-        return MutableLiveData<LiveDataResponse<String>>().also { observable ->
+    fun validateUserSignIn(userId: String): LiveData<LiveDataResponse<User>> {
+        return MutableLiveData<LiveDataResponse<User>>().also { observable ->
             accountManager.validateUserSignIn(
                 userId,
                 { observable.postValue(LiveDataResponse(it, isLoading = false)) },
@@ -21,8 +22,8 @@ class AccountRepository @Inject constructor(
         }
     }
 
-    fun handleSignInIntent(data: Intent?): LiveData<LiveDataResponse<String>> {
-        return MutableLiveData<LiveDataResponse<String>>().also { observable ->
+    fun handleSignInIntent(data: Intent?): LiveData<LiveDataResponse<User>> {
+        return MutableLiveData<LiveDataResponse<User>>().also { observable ->
             accountManager.receivedSignInResult(
                 data,
                 { observable.postValue(LiveDataResponse(it, isLoading = false)) },
@@ -33,8 +34,8 @@ class AccountRepository @Inject constructor(
 
     fun getSignInIntent(context: Context) = accountManager.getSignInIntent(context)
 
-    fun signInWithEmail(email: String, password: String): LiveData<LiveDataResponse<String>> {
-        return MutableLiveData<LiveDataResponse<String>>().also { observable ->
+    fun signInWithEmail(email: String, password: String): LiveData<LiveDataResponse<User>> {
+        return MutableLiveData<LiveDataResponse<User>>().also { observable ->
             accountManager.signInWithEmail(
                 email,
                 password,

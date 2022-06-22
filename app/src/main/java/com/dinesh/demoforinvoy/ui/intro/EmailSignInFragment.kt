@@ -63,7 +63,12 @@ class EmailSignInFragment: BaseDaggerFragment<EmailSignInViewModel>() {
         }
 
         viewModel.getNavigationTrigger().observe(viewLifecycleOwner) {
-            findNavController().navigate(EmailSignInFragmentDirections.actionEmailSignInFragmentToHomeFragment())
+            findNavController().navigate(
+                when(it.data) {
+                    true -> EmailSignInFragmentDirections.actionEmailSignInFragmentToConversationsFragment()
+                    else -> EmailSignInFragmentDirections.actionEmailSignInFragmentToHomeFragment()
+                }
+            )
         }
 
     }

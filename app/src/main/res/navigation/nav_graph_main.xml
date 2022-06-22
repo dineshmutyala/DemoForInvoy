@@ -18,6 +18,12 @@
         <action
             android:id="@+id/action_introFragment_to_emailSignInFragment"
             app:destination="@id/emailSignInFragment" />
+        <action
+            android:id="@+id/action_introFragment_to_conversationsFragment"
+            app:destination="@id/conversationsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph_main.xml"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -83,6 +89,24 @@
         <action
             android:id="@+id/action_emailSignInFragment_to_homeFragment"
             app:destination="@id/homeFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph_main.xml"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_emailSignInFragment_to_conversationsFragment"
+            app:destination="@id/conversationsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph_main.xml"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/conversationsFragment"
+        android:name="com.dinesh.demoforinvoy.ui.chat.ConversationsFragment"
+        tools:layout="@layout/fragment_conversations">
+        <action
+            android:id="@+id/action_conversationsFragment_to_introFragment"
+            app:destination="@id/introFragment"
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph_main.xml"
             app:popUpToInclusive="true" />

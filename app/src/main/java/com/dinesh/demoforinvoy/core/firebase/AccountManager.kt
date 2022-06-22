@@ -18,6 +18,10 @@ import javax.inject.Singleton
 @Singleton
 class AccountManager @Inject constructor(private val userPersistence: UserPersistence) {
 
+    companion object {
+        val USER_COACH = User(name = "Coach", userId = "leault3QkURTlm0HTE7VBu257uA2", isACoach = true)
+    }
+
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     private val userData: MutableLiveData<User> = MutableLiveData<User>()
@@ -33,7 +37,7 @@ class AccountManager @Inject constructor(private val userPersistence: UserPersis
         return GoogleSignIn.getClient(context, options).signInIntent
     }
 
-    fun receivedSignInResult(data: Intent?, successListener: (String) -> Unit, failureListener: (Exception) -> Unit) {
+    fun receivedSignInResult(data: Intent?, successListener: (User) -> Unit, failureListener: (Exception) -> Unit) {
         GoogleSignIn.getSignedInAccountFromIntent(data)
             .addOnCompleteListener {
                 when (it.isSuccessful) {
@@ -52,15 +56,15 @@ class AccountManager @Inject constructor(private val userPersistence: UserPersis
 
     private fun googleAuthForFirebase(
         idToken: String?,
-        successListener: (String) -> Unit,
+        successListener: (User) -> Unit,
         failureListener: (Exception) -> Unit
     ) {
         try {
             auth.signInWithCredential(GoogleAuthProvider.getCredential(idToken, null))
                 .addOnSuccessListener {
                     it.user?.let { user ->
-                        successListener.invoke(user.displayName ?: "")
-                        User(userId = user.uid, name = user.displayName ?: "").also { userObj ->
+                        User(name = user.displayName ?: "", userId = user.uid, isACoach = false).also { userObj ->
+                            successListener.invoke(userObj)
                             currentUser = userObj
                             userData.postValue(userObj)
                         }
@@ -74,19 +78,19 @@ class AccountManager @Inject constructor(private val userPersistence: UserPersis
 
     fun validateUserSignIn(
         userId: String,
-        successListener: (String) -> Unit,
+        successListener: (User) -> Unit,
         failureListener: (Exception) -> Unit
     ) {
         googleAuthForFirebase(userId, successListener, failureListener)
     }
 
-    fun signInWithEmail(email: String, password: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+    fun signInWithEmail(email: String, password: String, onSuccess: (User) -> Unit, onFailure: (Exception) -> Unit) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             when {
                 task.isSuccessful -> {
                     task.result.user?.let { user ->
-                        onSuccess.invoke(user.displayName ?: "")
-                        User(userId = user.uid, name = user.displayName ?: "").also { userObj ->
+                        User(name = user.displayName ?: "", userId = user.uid, isACoach = user.uid == USER_COACH.userId).also { userObj ->
+                            onSuccess.invoke(userObj)
                             currentUser = userObj
                             userData.postValue(userObj)
                         }

@@ -17,7 +17,8 @@
         android:layout_marginBottom="@dimen/_16sdp"
         android:paddingHorizontal="@dimen/_12sdp"
         android:paddingVertical="@dimen/_16sdp"
-        android:background="@drawable/bg_chat"/>
+        android:background="@drawable/bg_chat"
+        android:clipToPadding="false"/>
 
     <ImageView
         android:id="@+id/chatSend"

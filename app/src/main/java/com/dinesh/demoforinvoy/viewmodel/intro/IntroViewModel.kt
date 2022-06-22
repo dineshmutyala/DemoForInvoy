@@ -10,6 +10,7 @@ import com.dinesh.demoforinvoy.core.StringUtils
 import com.dinesh.demoforinvoy.core.livedata.LiveDataResponse
 import com.dinesh.demoforinvoy.core.preferences.UserPersistence
 import com.dinesh.demoforinvoy.core.scheduler.SchedulerProvider
+import com.dinesh.demoforinvoy.datamodels.user.User
 import com.dinesh.demoforinvoy.repositories.AccountRepository
 import com.dinesh.demoforinvoy.viewmodel.BaseViewModel
 import java.util.concurrent.TimeUnit
@@ -46,16 +47,16 @@ class IntroViewModel @Inject constructor(
 
         val observable = accountRepository.validateUserSignIn(userId)
 
-        var observer: Observer<LiveDataResponse<String>>? = null
+        var observer: Observer<LiveDataResponse<User>>? = null
 
         observer = Observer {
 
             when {
                 it.isLoading -> Unit
                 it.errorMessage != null -> triggerIntroFlow()
-                it.data != null -> when(it.data) {
+                else -> when(it.data) {
                     null -> triggerIntroFlow()
-                    else -> triggerUserValidated(stringUtils.getString(R.string.auto_sign_in_messsage, it.data))
+                    else -> triggerUserValidated(stringUtils.getString(R.string.auto_sign_in_messsage, it.data.name), it.data.isACoach)
                 }
             }
             observer?.let { observer -> observable.removeObserver(observer) }
@@ -65,7 +66,7 @@ class IntroViewModel @Inject constructor(
         }
     }
 
-    private fun triggerUserValidated(welcomeMessage: String) {
+    private fun triggerUserValidated(welcomeMessage: String, isACoach: Boolean) {
         userSignInSuccessTrigger.postValue(
             LiveDataResponse(
                 data = welcomeMessage,
@@ -74,7 +75,7 @@ class IntroViewModel @Inject constructor(
         )
 
         schedulerProvider.io().scheduleDirect(
-            { navigationTrigger.postValue(LiveDataResponse(data = true, isLoading = false)) },
+            { navigationTrigger.postValue(LiveDataResponse(data = isACoach, isLoading = false)) },
             2000,
             TimeUnit.MILLISECONDS
         )
@@ -96,16 +97,16 @@ class IntroViewModel @Inject constructor(
     fun receivedSignInResult(data: Intent?) {
 
         val observable = accountRepository.handleSignInIntent(data)
-        var observer: Observer<LiveDataResponse<String>>? = null
+        var observer: Observer<LiveDataResponse<User>>? = null
 
         observer = Observer {
 
             when {
                 it.isLoading -> Unit
-                it.errorMessage != null -> userSignInSuccessTrigger.postValue(it)
+                it.errorMessage != null -> userSignInSuccessTrigger.postValue(LiveDataResponse(it.errorMessage, isLoading = false))
                 it.data != null -> when(it.data) {
                     null -> Unit
-                    else -> triggerUserValidated(stringUtils.getString(R.string.auto_sign_in_messsage, it.data))
+                    else -> triggerUserValidated(stringUtils.getString(R.string.auto_sign_in_messsage, it.data.name), it.data.isACoach)
                 }
             }
             observer?.let { observer -> observable.removeObserver(observer) }
