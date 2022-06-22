@@ -17,7 +17,6 @@ import com.dinesh.demoforinvoy.viewmodel.wieghtinput.WeightInputViewModel
 class WeightInputFragment: BaseDaggerFragment<WeightInputViewModel>() {
 
     private var binding: FragmentWeightInputBinding? = null
-    private var bufferingBinding: FullscreenBlockingLoadingBinding? = null
 
     private var textChangedListener: TextWatcher? = null
 
@@ -81,20 +80,6 @@ class WeightInputFragment: BaseDaggerFragment<WeightInputViewModel>() {
             }
         }
         viewModel.getNavigateBackTrigger().observe(viewLifecycleOwner) { findNavController().popBackStack() }
-    }
-
-    private fun startLoading() {
-        bufferingBinding?.apply {
-            bufferingView.playAnimation()
-            bufferingGroup.visibility = View.VISIBLE
-        }
-    }
-
-    private fun stopLoading() {
-        bufferingBinding?.apply {
-            bufferingView.cancelAnimation()
-            bufferingGroup.visibility = View.GONE
-        }
     }
 
     private fun handleError(errorMessage: String) {

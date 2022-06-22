@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dinesh.demoforinvoy.databinding.ItemLoadMoreBinding
 import com.dinesh.demoforinvoy.databinding.ListItemViewLogBinding
+import com.dinesh.demoforinvoy.ui.common.LoadMoreViewHolder
 
 class ViewLogsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -65,7 +66,7 @@ class ViewLogsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            VIEW_TYPE_LOADING -> LoadMoreViewHolder(
+            VIEW_TYPE_LOADING -> LoadMoreViewHolder<WeightLogPresentationModel>(
                 ItemLoadMoreBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
             else -> ViewLogListItemViewHolder(

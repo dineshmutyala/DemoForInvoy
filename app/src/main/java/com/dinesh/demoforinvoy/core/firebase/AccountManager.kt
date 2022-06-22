@@ -1,4 +1,4 @@
-package com.dinesh.demoforinvoy.core.accountmanager
+package com.dinesh.demoforinvoy.core.firebase
 
 import android.content.Context
 import android.content.Intent
@@ -13,7 +13,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AccountManager @Inject constructor(private val userPersistence: UserPersistence) {
 
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }

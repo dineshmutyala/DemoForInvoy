@@ -5,9 +5,18 @@
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.1298351833165153" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2025" />
+        <entry key="app/src/main/res/drawable/bg_chat.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/bg_chat_message_received.xml" value="0.208" />
+        <entry key="app/src/main/res/drawable/bg_chat_message_sent.xml" value="0.208" />
+        <entry key="app/src/main/res/drawable/bg_cta_button.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/bg_cta_button_send.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/bg_cta_button_v2.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/bg_edit_text_chat.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/bg_edit_text_weight.xml" value="0.1955" />
         <entry key="app/src/main/res/drawable/cta_button_bg.xml" value="0.2025" />
         <entry key="app/src/main/res/drawable/edit_text_bg.xml" value="0.2015" />
         <entry key="app/src/main/res/drawable/enter_wieght_button_bg.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/ic_close.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_google.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/intro_buttons_bg.xml" value="0.2135" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.39237213134765625" />
@@ -21,6 +30,8 @@
         <entry key="app/src/main/res/layout/fragment_weight_input.xml" value="0.26135711669921874" />
         <entry key="app/src/main/res/layout/fullscreen_blocking_loading.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/item_load_more.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/list_item_chat_message_received.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/list_item_chat_message_sent.xml" value="0.7215189873417721" />
         <entry key="app/src/main/res/layout/list_item_view_log.xml" value="0.375" />
         <entry key="app/src/main/res/menu/meni_home.xml" value="0.375" />
         <entry key="app/src/main/res/menu/menu_home.xml" value="0.35462962962962963" />

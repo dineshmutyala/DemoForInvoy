@@ -22,6 +22,9 @@ class SynchronizedTimeUtils {
         private const val FORMAT_DATE_SLASHED_MD = "MM/dd"
         private const val FORMAT_DATE_SLASHED_MDY_SHORT = "MM/dd/yy"
 
+        private const val FORMAT_TIME_SLASHED_MD_TIME_NO_SEC = "MMM dd h:mm:ss a"
+
+
         private val calendar = Calendar.getInstance()
 
         private val mapFormatToDateFormat = mutableMapOf<String, DateFormat>()
@@ -64,6 +67,11 @@ class SynchronizedTimeUtils {
         @Synchronized
         fun getFormattedShortDayLongMonthDayAndYear(date: Date, timezone: TimeZone): String {
             return applyTimeZoneAndFormat(FORMAT_SHORT_DAY_AND_LONG_MONTH_DATE_YEAR, timezone, date)
+        }
+
+        @Synchronized
+        fun getFormattedTimeWithDateNoYearNoSec(date: Date, timezone: TimeZone): String {
+            return applyTimeZoneAndFormat(FORMAT_TIME_SLASHED_MD_TIME_NO_SEC, timezone, date)
         }
 
         @Synchronized

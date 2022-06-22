@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dinesh.demoforinvoy.R
 import com.dinesh.demoforinvoy.core.misc.graph.GraphStyler
 import com.dinesh.demoforinvoy.core.misc.guardAgainstNull
+import com.dinesh.demoforinvoy.core.misc.isLastItemShowing
+import com.dinesh.demoforinvoy.core.misc.isValidToCheckForLastItem
 import com.dinesh.demoforinvoy.databinding.FragmentViewLogsBinding
 import com.dinesh.demoforinvoy.databinding.FullscreenBlockingLoadingBinding
 import com.dinesh.demoforinvoy.ui.BaseDaggerFragment
@@ -25,7 +27,6 @@ class ViewLogsFragment: BaseDaggerFragment<ViewLogsViewModel>() {
     lateinit var graphStyler: GraphStyler
 
     private var binding: FragmentViewLogsBinding? = null
-    private var bufferingBinding: FullscreenBlockingLoadingBinding? = null
 
     private lateinit var listdapter: ViewLogsAdapter
 
@@ -72,17 +73,6 @@ class ViewLogsFragment: BaseDaggerFragment<ViewLogsViewModel>() {
             }
         )
     }
-
-    fun RecyclerView.isValidToCheckForLastItem(newState: Int) =
-        newState == RecyclerView.SCROLL_STATE_IDLE && safeItemCount > 0
-
-    fun RecyclerView.isLastItemShowing(): Boolean {
-        val linearLayoutManager = (layoutManager as? LinearLayoutManager).guardAgainstNull { return false }
-        val lastVisiblePosition = linearLayoutManager.findLastVisibleItemPosition()
-        return lastVisiblePosition >= safeItemCount - 1
-    }
-
-    private val RecyclerView.safeItemCount get() = adapter?.itemCount ?: 0
 
     private fun handleLoadMoreSongs() {
         listdapter.loadingMore()
@@ -191,20 +181,6 @@ class ViewLogsFragment: BaseDaggerFragment<ViewLogsViewModel>() {
         ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)))
     }
 
-    private fun startLoading() {
-        bufferingBinding?.apply {
-            bufferingView.playAnimation()
-            bufferingGroup.visibility = View.VISIBLE
-        }
-    }
-
-    private fun stopLoading() {
-        bufferingBinding?.apply {
-            bufferingView.cancelAnimation()
-            bufferingGroup.visibility = View.GONE
-        }
-    }
-
     override fun clearListeners() {
         super.clearListeners()
         binding?.goToPreviousPage?.setOnClickListener(null)
@@ -216,7 +192,6 @@ class ViewLogsFragment: BaseDaggerFragment<ViewLogsViewModel>() {
     override fun clearViewBindings() {
         super.clearViewBindings()
         binding = null
-        bufferingBinding = null
     }
 
     override fun clearReferences() {

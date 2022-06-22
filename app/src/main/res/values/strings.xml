@@ -32,5 +32,9 @@
     <string name="x_lbs">%1$s lbs</string>
     <string name="on_y">on %1$s</string>
     <string name="chat_with_your_health_coach">Chat with your health coach</string>
+    <string name="send_message">Send Message</string>
+    <string name="hint_type_a_message">Type a message</string>
+    <string name="send_graph_to_my_coach">Send graph to my coach</string>
+    <string name="a11y_custom_image">Custom Image</string>
 
 </resources>

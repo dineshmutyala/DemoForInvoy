@@ -51,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/loadingGuide"
         android:gravity="center_vertical"
-        android:background="@drawable/intro_buttons_bg"
+        android:background="@drawable/bg_intro_buttons"
         android:paddingVertical="6dp"
         android:paddingHorizontal="16dp"
         android:elevation="2dp"

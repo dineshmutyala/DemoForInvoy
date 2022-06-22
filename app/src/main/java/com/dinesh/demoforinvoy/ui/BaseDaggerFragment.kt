@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
+import com.dinesh.demoforinvoy.databinding.FullscreenBlockingLoadingBinding
 import com.dinesh.demoforinvoy.viewmodel.BaseViewModel
 import dagger.android.support.DaggerFragment
+import javax.annotation.OverridingMethodsMustInvokeSuper
 import javax.inject.Inject
 
 abstract class BaseDaggerFragment<T: BaseViewModel>: DaggerFragment() {
@@ -19,6 +21,8 @@ abstract class BaseDaggerFragment<T: BaseViewModel>: DaggerFragment() {
     protected val viewModel: T by lazy { viewModel() }
 
     abstract val fragmentLayoutId: Int
+
+    protected var bufferingBinding: FullscreenBlockingLoadingBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return view ?: inflater.inflate(fragmentLayoutId, container, false)
@@ -81,7 +85,11 @@ abstract class BaseDaggerFragment<T: BaseViewModel>: DaggerFragment() {
     }
 
     protected open fun clearListeners() = Unit
-    protected open fun clearViewBindings() = Unit
+
+    @OverridingMethodsMustInvokeSuper
+    protected open fun clearViewBindings() {
+        bufferingBinding = null
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -110,6 +118,20 @@ abstract class BaseDaggerFragment<T: BaseViewModel>: DaggerFragment() {
                     onFadeOutComplete()
                 }
             })
+    }
+
+    protected fun startLoading() {
+        bufferingBinding?.apply {
+            bufferingView.playAnimation()
+            bufferingGroup.visibility = View.VISIBLE
+        }
+    }
+
+    protected fun stopLoading() {
+        bufferingBinding?.apply {
+            bufferingView.cancelAnimation()
+            bufferingGroup.visibility = View.GONE
+        }
     }
 
     protected open fun clearReferences() = Unit

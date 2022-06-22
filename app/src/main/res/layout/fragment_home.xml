@@ -31,7 +31,7 @@
         android:text="@string/enter_weight"
         android:gravity="center"
         android:paddingHorizontal="36dp"
-        android:background="@drawable/cta_button_bg"
+        android:background="@drawable/bg_cta_button"
         android:visibility="gone"/>
 
     <TextView
@@ -90,6 +90,22 @@
         style="?customTextTextS"
         android:visibility="gone"/>
 
+    <TextView
+        android:id="@+id/sendGraphToCoach"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/chatWithYourHealthCoach"
+        app:layout_constraintTop_toTopOf="@id/chatWithYourHealthCoach"
+        app:layout_constraintBottom_toBottomOf="@id/chatWithYourHealthCoach"
+        android:text="@string/send_graph_to_my_coach"
+        android:background="@drawable/bg_cta_button_v2"
+        android:textColor="@color/white"
+        style="?customTextButtonXS"
+        android:paddingVertical="@dimen/_8sdp"
+        android:paddingHorizontal="@dimen/_24sdp"
+        />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/chatWithYourHealthCoach"
         android:layout_width="wrap_content"
@@ -98,6 +114,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp"
         android:src="@drawable/ic_chat"
+        app:tint="@color/white"
         android:contentDescription="@string/chat_with_your_health_coach"
         />
+
+    <include layout="@layout/fullscreen_blocking_loading"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dinesh.demoforinvoy.R
 import com.dinesh.demoforinvoy.core.StringUtils
-import com.dinesh.demoforinvoy.core.accountmanager.AccountManager
+import com.dinesh.demoforinvoy.core.firebase.AccountManager
 import com.dinesh.demoforinvoy.core.livedata.LiveDataResponse
 import com.dinesh.demoforinvoy.core.preferences.UserPersistence
 import com.dinesh.demoforinvoy.core.scheduler.SchedulerProvider

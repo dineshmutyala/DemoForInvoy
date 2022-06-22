@@ -1,9 +1,12 @@
 package com.dinesh.demoforinvoy.ui.home
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.ViewModelProvider
@@ -13,10 +16,16 @@ import com.dinesh.demoforinvoy.core.SynchronizedTimeUtils
 import com.dinesh.demoforinvoy.core.misc.graph.GraphStyler
 import com.dinesh.demoforinvoy.core.misc.guardAgainstNull
 import com.dinesh.demoforinvoy.databinding.FragmentHomeBinding
+import com.dinesh.demoforinvoy.databinding.FullscreenBlockingLoadingBinding
 import com.dinesh.demoforinvoy.ui.BaseDaggerFragment
 import com.dinesh.demoforinvoy.viewmodel.home.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import java.util.*
 import javax.inject.Inject
+
 
 class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
 
@@ -40,6 +49,7 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
     override fun initViewBindings(view: View) {
         super.initViewBindings(view)
         binding = FragmentHomeBinding.bind(view)
+        bufferingBinding = FullscreenBlockingLoadingBinding.bind(view)
     }
 
     override fun initListeners() {
@@ -51,12 +61,26 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
         val binding = binding.guardAgainstNull { return }
         binding.enterWeight.setOnClickListener { inputWeightFromUser() }
         binding.weightToday.setOnClickListener { inputWeightFromUser() }
-        binding.expandGraph.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToViewLogsFragment())
-        }
+        binding.expandGraph.setOnClickListener { navigateToChat() }
         binding.chatWithYourHealthCoach.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToChatFragment())
         }
+
+        binding.sendGraphToCoach.setOnClickListener {
+            loadBitmapFromView(binding.lineGraph)?.also {
+                CoroutineScope(Dispatchers.Default).launch {
+                    val baos = ByteArrayOutputStream()
+                    it.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                    CoroutineScope(Dispatchers.Main).launch {
+                        viewModel.sendGraphToCoach(baos.toByteArray())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun navigateToChat() {
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToChatFragment())
     }
 
     private fun inputWeightFromUser() {
@@ -65,6 +89,13 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
                 SynchronizedTimeUtils.getFormattedDateSlashedMDY(Date(), TimeZone.getDefault())
             )
         )
+    }
+
+    private fun loadBitmapFromView(v: View): Bitmap? {
+        val b = Bitmap.createBitmap(v.width, v.height, Bitmap.Config.ARGB_8888)
+        val c = Canvas(b)
+        v.draw(c)
+        return b
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -83,6 +114,7 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
         super.setup()
         binding?.lineGraph?.also { graphStyler.styleChart(it) }
         requireActivity().addMenuProvider(this, viewLifecycleOwner)
+        stopLoading()
     }
 
     override fun setupObservers() {
@@ -119,6 +151,22 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
                         binding?.expandGraph?.visibility = if(response.data.entryCount == 0) View.INVISIBLE
                         else View.VISIBLE
                     }
+                }
+            }
+        }
+
+        viewModel.getGraphSentToCoachTrigger().observe(viewLifecycleOwner) { response ->
+            when {
+                response.isLoading -> startLoading()
+                response.errorMessage != null -> {
+                    stopLoading()
+                    Toast.makeText(requireContext(), "Failed to send graph to coach", Toast.LENGTH_SHORT)
+                    viewModel.clearNavigateTrigger()
+                }
+                response.data != null -> {
+                    stopLoading()
+                    navigateToChat()
+                    viewModel.clearNavigateTrigger()
                 }
             }
         }

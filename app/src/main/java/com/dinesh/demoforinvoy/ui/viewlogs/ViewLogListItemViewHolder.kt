@@ -1,14 +1,14 @@
 package com.dinesh.demoforinvoy.ui.viewlogs
 
-import androidx.recyclerview.widget.RecyclerView
 import com.dinesh.demoforinvoy.R
 import com.dinesh.demoforinvoy.databinding.ListItemViewLogBinding
+import com.dinesh.demoforinvoy.ui.common.BaseViewHolder
 
-class ViewLogListItemViewHolder(
+internal class ViewLogListItemViewHolder(
     private val binding: ListItemViewLogBinding
-): RecyclerView.ViewHolder(binding.root) {
+): BaseViewHolder<WeightLogPresentationModel>(binding.root) {
 
-    fun bindData(data: WeightLogPresentationModel) {
+    override fun bindData(data: WeightLogPresentationModel) {
         binding.weight.text = binding.weight.context.getString(R.string.x_lbs, data.weight)
         binding.weightOn.text = binding.weight.context.getString(R.string.on_y, data.weightOn)
     }
