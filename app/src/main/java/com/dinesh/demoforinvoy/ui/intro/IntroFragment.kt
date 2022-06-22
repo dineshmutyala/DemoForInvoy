@@ -54,6 +54,11 @@ class IntroFragment : BaseDaggerFragment<IntroViewModel>() {
     override fun attachListeners() {
         super.attachListeners()
         binding?.signInButton?.setOnClickListener { context?.let { context -> viewModel.signInClicked(context) } }
+        binding?.signInWithEmailButton?.setOnClickListener { navigateToSignInThroughEmail() }
+    }
+
+    private fun navigateToSignInThroughEmail() {
+        findNavController().navigate(IntroFragmentDirections.actionIntroFragmentToEmailSignInFragment())
     }
 
     override fun setup() {
@@ -76,7 +81,7 @@ class IntroFragment : BaseDaggerFragment<IntroViewModel>() {
                 it.data != null -> {
                     binding?.welcomeMessage?.text = it.data
                     fadeOutLoadingAnimation(false)
-                    fadeOutSignInButton()
+                    fadeOutSignInButtons()
                     fadeInWelcomeText()
                 }
             }
@@ -115,8 +120,9 @@ class IntroFragment : BaseDaggerFragment<IntroViewModel>() {
         }
     }
 
-    private fun fadeInSignInButton() {
+    private fun fadeInSignInButtons() {
         binding?.signInButton?.also { fadeInView(it)}
+        binding?.signInWithEmailButton?.also { fadeInView(it)}
     }
 
     private fun fadeInWelcomeText() {
@@ -128,18 +134,19 @@ class IntroFragment : BaseDaggerFragment<IntroViewModel>() {
             fadeOutView(loadingView) {
                 loadingView.cancelAnimation()
                 loadingView.visibility = View.GONE
-                if (shouldShowSignInButton) fadeInSignInButton()
+                if (shouldShowSignInButton) fadeInSignInButtons()
             }
         }
     }
 
-    private fun fadeOutSignInButton() {
-        binding?.signInButton?.also { fadeOutView(it) }
+    private fun fadeOutSignInButtons() {
+        listOf(binding?.signInButton, binding?.signInWithEmailButton).forEach { it?.also { fadeOutView(it) } }
     }
 
     override fun clearListeners() {
         super.clearListeners()
         binding?.signInButton?.setOnClickListener(null)
+        binding?.signInWithEmailButton?.setOnClickListener(null)
     }
 
     override fun clearViewBindings() {

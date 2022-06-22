@@ -4,12 +4,13 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.dinesh.demoforinvoy.R
 import com.dinesh.demoforinvoy.core.StringUtils
-import com.dinesh.demoforinvoy.core.firebase.AccountManager
 import com.dinesh.demoforinvoy.core.livedata.LiveDataResponse
 import com.dinesh.demoforinvoy.core.preferences.UserPersistence
 import com.dinesh.demoforinvoy.core.scheduler.SchedulerProvider
+import com.dinesh.demoforinvoy.repositories.AccountRepository
 import com.dinesh.demoforinvoy.viewmodel.BaseViewModel
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -17,7 +18,7 @@ import javax.inject.Inject
 class IntroViewModel @Inject constructor(
     private val userPersistence: UserPersistence,
     private val schedulerProvider: SchedulerProvider,
-    private val accountManager: AccountManager,
+    private val accountRepository: AccountRepository,
     private val stringUtils: StringUtils
 ): BaseViewModel() {
 
@@ -42,11 +43,26 @@ class IntroViewModel @Inject constructor(
     }
 
     private fun validateUserSignIn(userId: String) {
-        accountManager.validateUserSignIn(
-            userId,
-            { triggerUserValidated(stringUtils.getString(R.string.auto_sign_in_messsage, it)) },
-            { triggerIntroFlow() }
-        )
+
+        val observable = accountRepository.validateUserSignIn(userId)
+
+        var observer: Observer<LiveDataResponse<String>>? = null
+
+        observer = Observer {
+
+            when {
+                it.isLoading -> Unit
+                it.errorMessage != null -> triggerIntroFlow()
+                it.data != null -> when(it.data) {
+                    null -> triggerIntroFlow()
+                    else -> triggerUserValidated(stringUtils.getString(R.string.auto_sign_in_messsage, it.data))
+                }
+            }
+            observer?.let { observer -> observable.removeObserver(observer) }
+        }
+        schedulerProvider.ui().scheduleDirect {
+            observable.observeForever(observer)
+        }
     }
 
     private fun triggerUserValidated(welcomeMessage: String) {
@@ -74,15 +90,27 @@ class IntroViewModel @Inject constructor(
     }
 
     fun signInClicked(context: Context) {
-        signInIntent.postValue(LiveDataResponse(data = accountManager.getSignInIntent(context), isLoading = false))
+        signInIntent.postValue(LiveDataResponse(data = accountRepository.getSignInIntent(context), isLoading = false))
     }
 
     fun receivedSignInResult(data: Intent?) {
-        accountManager.receivedSignInResult(
-            data,
-            { triggerUserValidated(stringUtils.getString(R.string.sign_in_messsage, it)) },
-            { userSignInSuccessTrigger.postValue(LiveDataResponse(null, "Could not sign you in! Please try again", false)) }
-        )
+
+        val observable = accountRepository.handleSignInIntent(data)
+        var observer: Observer<LiveDataResponse<String>>? = null
+
+        observer = Observer {
+
+            when {
+                it.isLoading -> Unit
+                it.errorMessage != null -> userSignInSuccessTrigger.postValue(it)
+                it.data != null -> when(it.data) {
+                    null -> Unit
+                    else -> triggerUserValidated(stringUtils.getString(R.string.auto_sign_in_messsage, it.data))
+                }
+            }
+            observer?.let { observer -> observable.removeObserver(observer) }
+        }
+        observable.observeForever(observer)
     }
 
     fun getUserSignInSuccessTrigger(): LiveData<LiveDataResponse<String>> = userSignInSuccessTrigger

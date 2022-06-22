@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Weight Tracker</string>
     <string name="sign_in_with_google">Sign In with Google</string>
+    <string name="sign_in_with_email">Sign In with Email</string>
     <string name="sign_up_with_google">Sign Up with Google</string>
 
     <string name="auto_sign_in_messsage">Welcome back, %1$s!</string>
@@ -36,5 +37,8 @@
     <string name="hint_type_a_message">Type a message</string>
     <string name="send_graph_to_my_coach">Send graph to my coach</string>
     <string name="a11y_custom_image">Custom Image</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
 
 </resources>

@@ -80,6 +80,25 @@ class AccountManager @Inject constructor(private val userPersistence: UserPersis
         googleAuthForFirebase(userId, successListener, failureListener)
     }
 
+    fun signInWithEmail(email: String, password: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            when {
+                task.isSuccessful -> {
+                    task.result.user?.let { user ->
+                        onSuccess.invoke(user.displayName ?: "")
+                        User(userId = user.uid, name = user.displayName ?: "").also { userObj ->
+                            currentUser = userObj
+                            userData.postValue(userObj)
+                        }
+                    }
+                }
+                else -> {
+                    onFailure.invoke(task.exception ?: Exception())
+                }
+            }
+        }
+    }
+
     fun logOut() {
         auth.signOut()
         userPersistence.removeFromPersistence(UserPersistence.KEY_USER_ID)

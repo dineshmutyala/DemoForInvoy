@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/applicationBackground">
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        android:hint="@string/email"
+        android:layout_marginTop="@dimen/_60sdp"
+        android:background="@drawable/bg_edit_text_chat"
+        android:paddingHorizontal="@dimen/_16sdp"
+        android:paddingVertical="@dimen/_8sdp"
+        android:layout_marginHorizontal="@dimen/_40sdp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/disabledColor"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        android:hint="@string/password"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/bg_edit_text_chat"
+        android:paddingHorizontal="@dimen/_16sdp"
+        android:paddingVertical="@dimen/_8sdp"
+        android:layout_marginHorizontal="@dimen/_40sdp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/disabledColor"/>
+
+    <TextView
+        android:id="@+id/signInButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="@dimen/_16sdp"
+        android:paddingVertical="@dimen/_8sdp"
+        android:layout_marginHorizontal="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:background="@drawable/bg_cta_button"
+        android:text="@string/sign_in"
+        android:gravity="center"
+        style="?customTextButtonXS"
+        android:textColor="@color/basil_orange"
+        />
+
+    <include layout="@layout/fullscreen_blocking_loading"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
