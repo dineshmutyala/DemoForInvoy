@@ -1,10 +1,12 @@
 package com.dinesh.demoforinvoy.viewmodel.chat
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.dinesh.demoforinvoy.core.SynchronizedTimeUtils
 import com.dinesh.demoforinvoy.core.livedata.LiveDataResponse
+import com.dinesh.demoforinvoy.core.misc.guardAgainstNull
 import com.dinesh.demoforinvoy.core.scheduler.SchedulerProvider
 import com.dinesh.demoforinvoy.datamodels.message.Message
 import com.dinesh.demoforinvoy.repositories.ChatRepository
@@ -128,6 +130,23 @@ class ChatViewModel @Inject constructor(
     fun getMessageSentData(): LiveData<LiveDataResponse<Pair<String, ChatMessagePresentationModel>>> = messageSentData
 
     fun getConversationData(): LiveData<LiveDataResponse<Pair<Int, List<ChatMessagePresentationModel>>>> = messagesData
+
+    fun receivedNewMessage(it: Bundle) {
+        val message = it.getString("message").guardAgainstNull { return }
+        val messageId = it.getString("messageId").guardAgainstNull { return }
+        val sentOn = it.getLong("sentOn").guardAgainstNull { return }
+        ChatMessagePresentationModel(
+            id = messageId,
+            message = message,
+            isSentMessage = false,
+            sentOn = SynchronizedTimeUtils.getFormattedTimeWithDateNoYearNoSec(
+                Date(sentOn),
+                TimeZone.getDefault()
+            )
+        ).also {
+            messageSentData.postValue(LiveDataResponse(Pair(messageId, it), isLoading = false))
+        }
+    }
 
     override fun clearReferences() {
         clearExistingMessagesObserver()

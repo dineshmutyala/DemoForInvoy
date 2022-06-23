@@ -139,24 +139,7 @@ class ChatFragment: BaseDaggerFragment<ChatViewModel>(), MenuProvider {
             object: BroadcastReceiver() {
                 override fun onReceive(context: Context?, intent: Intent?) {
                     intent?.extras?.let {
-                        val message = it.getString("message").guardAgainstNull { return }
-                        val messageId = it.getString("messageId").guardAgainstNull { return }
-                        val sentOn = it.getLong("sentOn").guardAgainstNull { return }
-                        adapter?.updateMessage(
-                            Pair(
-                                messageId,
-                                ChatMessagePresentationModel(
-                                    id = messageId,
-                                    message = message,
-                                    isSentMessage = false,
-                                    sentOn = SynchronizedTimeUtils.getFormattedTimeWithDateNoYearNoSec(
-                                        Date(sentOn),
-                                        TimeZone.getDefault()
-                                    )
-                                )
-                            )
-                        )
-                        binding?.listChat?.scrollToPosition(0)
+                        viewModel.receivedNewMessage(it)
                         Timber.d("Dinesh: Received message - $it")
                     }
                 }
