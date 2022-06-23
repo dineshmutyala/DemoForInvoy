@@ -4,4 +4,7 @@ import com.dinesh.demoforinvoy.core.events.Event
 
 sealed class ConversationListEvents: Event
 
-data class ViewConversationEvent(val forUserWithId: String): ConversationListEvents()
+data class ViewConversationEvent(
+    val forUserWithId: String,
+    val forUserWithToken: String
+): ConversationListEvents()

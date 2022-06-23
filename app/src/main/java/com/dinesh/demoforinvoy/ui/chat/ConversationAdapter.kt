@@ -38,7 +38,12 @@ class ConversationAdapter(private var eventListener: EventListener?) : BaseAdapt
     override fun onEvent(event: Event) {
         when(event) {
             is ListItemClickedEvent -> {
-                eventListener?.onEvent(ViewConversationEvent(forUserWithId = listData[event.position].userId))
+                eventListener?.onEvent(
+                    ViewConversationEvent(
+                        forUserWithId = listData[event.position].userId,
+                        forUserWithToken = listData[event.position].fcmToken
+                    )
+                )
             }
         }
     }

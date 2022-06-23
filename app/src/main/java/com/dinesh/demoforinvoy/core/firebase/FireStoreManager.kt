@@ -3,6 +3,7 @@ package com.dinesh.demoforinvoy.core.firebase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.dinesh.demoforinvoy.core.firebase.AccountManager.Companion.USER_COACH
+import com.dinesh.demoforinvoy.core.firebase.messaging.MessagingManager
 import com.dinesh.demoforinvoy.core.misc.guardAgainstNull
 import com.dinesh.demoforinvoy.datamodels.message.Message
 import com.dinesh.demoforinvoy.datamodels.user.User
@@ -14,7 +15,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FireStoreManager @Inject constructor(private val accountManager: AccountManager) {
+class FireStoreManager @Inject constructor(
+    private val accountManager: AccountManager,
+    private val messagingManager: MessagingManager
+) {
 
     private val instance: FirebaseFirestore by lazy { Firebase.firestore }
 
@@ -45,10 +49,10 @@ class FireStoreManager @Inject constructor(private val accountManager: AccountMa
     fun sendMessage(
         message: String,
         chatWithUserId: String?,
+        chatWithUserToken: String?,
         onSuccess: (Message) -> Unit,
         onFailure: () -> Unit
     ) {
-
         val currentUser = accountManager.getCurrentUser().guardAgainstNull { return onFailure() }
         val sentOn = Date().time
         getUserChatDocs(currentUser, chatWithUserId).collection(USER_COACH.userId).add(
@@ -68,6 +72,18 @@ class FireStoreManager @Inject constructor(private val accountManager: AccountMa
                             isSentMessage = true
                         )
                     )
+                    chatWithUserToken?.let { token ->
+                        chatWithUserId?.let { toUserId ->
+                            messagingManager.postMessage(
+                                currentUser.userId,
+                                toUserId,
+                                message,
+                                it.result.id,
+                                sentOn,
+                                token
+                            )
+                        }
+                    }
                     addCoachConversationToDb(chatWithUserId)
                 }
                 it.exception != null -> onFailure()
@@ -160,7 +176,8 @@ class FireStoreManager @Inject constructor(private val accountManager: AccountMa
                                         usersTask.result.documents.map {
                                             User(
                                                 name = it["name"]?.toString() ?: "",
-                                                userId = it["userId"]?.toString() ?: ""
+                                                userId = it["userId"]?.toString() ?: "",
+                                                token = it["token"]?.toString() ?: "",
                                             )
                                         }.also {
                                             onSuccess(it)

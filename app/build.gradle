@@ -41,6 +41,7 @@ android {
 
 dependencies {
 
+
     // VERSION DEFINITIONS
     def dagger_version = "2.42"
     def navigation_version = "2.5.0-rc02"
@@ -49,6 +50,7 @@ dependencies {
     def lottieVersion = "5.2.0"
     def roomVersion = "2.5.0-alpha02"
     def glideVersion = "4.13.0"
+    def retrofitVersion="2.9.0"
     //---------------------------------------------------------------------//
 
     // Android X
@@ -118,6 +120,10 @@ dependencies {
     // MPAndroidCharts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     // Tests
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

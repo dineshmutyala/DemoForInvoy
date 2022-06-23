@@ -78,7 +78,7 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
     }
 
     private fun navigateToChat() {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToChatFragment(null))
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToChatFragment(null, null))
     }
 
     private fun inputWeightFromUser() {

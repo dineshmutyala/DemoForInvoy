@@ -17,11 +17,16 @@ class ChatRepository @Inject constructor(
     private val messagesData = MutableLiveData<LiveDataResponse<List<Message>>>()
     private val conversationsData = MutableLiveData<LiveDataResponse<List<User>>>()
 
-    fun sendMessage(message: String, chatWithUserId: String?): LiveData<LiveDataResponse<Message>> {
+    fun sendMessage(
+        message: String,
+        chatWithUserId: String?,
+        chatWithToken: String?
+    ): LiveData<LiveDataResponse<Message>> {
         return MutableLiveData<LiveDataResponse<Message>>(LiveDataResponse(isLoading = true)).also { observable ->
             fireStore.sendMessage(
                 message,
                 chatWithUserId,
+                chatWithToken,
                 { observable.postValue(LiveDataResponse(data = it, isLoading = false)) },
                 { observable.postValue(LiveDataResponse(errorMessage = "Could not send message", isLoading = false)) }
             )
@@ -57,6 +62,7 @@ class ChatRepository @Inject constructor(
                 { downloadPath ->
                     fireStore.sendMessage(
                         downloadPath,
+                        null,
                         null,
                         { observable.postValue(LiveDataResponse(data = it, isLoading = false)) },
                         { observable.postValue(LiveDataResponse(errorMessage = "Could not send message", isLoading = false)) }

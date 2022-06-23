@@ -29,6 +29,7 @@ class ChatViewModel @Inject constructor(
     private val messagesData = MutableLiveData<LiveDataResponse<Pair<Int, List<ChatMessagePresentationModel>>>>()
 
     private var chatWithUserId: String? = null
+    private var chatWithUserToken: String? = null
 
     init {
         messagesObserver?.let { messagesObservable.removeObserver(it) }
@@ -41,8 +42,9 @@ class ChatViewModel @Inject constructor(
         triggerFetchMessages(currentPage)
     }
 
-    fun initializeForUser(userId: String) {
+    fun initializeForUser(userId: String, token: String) {
         chatWithUserId = userId
+        chatWithUserToken = token
     }
 
     private fun triggerFetchMessages(forPage: Int) {
@@ -90,7 +92,7 @@ class ChatViewModel @Inject constructor(
             sentOn = SynchronizedTimeUtils.getFormattedTimeWithDateNoYearNoSec(Date(), TimeZone.getDefault()),
             isSentMessage = true
         )
-        val observable = chatRepository.sendMessage(message, chatWithUserId)
+        val observable = chatRepository.sendMessage(message, chatWithUserId, chatWithUserToken)
         var observer: Observer<LiveDataResponse<Message>>? = null
         observer = Observer<LiveDataResponse<Message>> { response ->
 

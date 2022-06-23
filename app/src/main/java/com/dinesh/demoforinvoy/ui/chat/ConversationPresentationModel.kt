@@ -7,14 +7,16 @@ import java.util.*
 data class ConversationPresentationModel(
     override val id: String = UUID.randomUUID().toString(),
     val userName: String,
-    val userId: String
+    val userId: String,
+    val fcmToken: String
 ): BasePresentationModel {
     companion object {
-        val EMPTY = ConversationPresentationModel("", "", "")
+        val EMPTY = ConversationPresentationModel("", "", "", "")
 
         fun fromUser(user: User) = ConversationPresentationModel(
             userName = user.name,
-            userId = user.userId
+            userId = user.userId,
+            fcmToken = user.token
         )
     }
 }

@@ -41,7 +41,8 @@ class ConversationsFragment: BaseDaggerFragment<ConversationsViewModel>() {
                     is ViewConversationEvent -> {
                         findNavController().navigate(
                             ConversationsFragmentDirections.actionConversationsFragmentToChatFragment(
-                                event.forUserWithId
+                                event.forUserWithId,
+                                event.forUserWithToken
                             )
                         )
                     }

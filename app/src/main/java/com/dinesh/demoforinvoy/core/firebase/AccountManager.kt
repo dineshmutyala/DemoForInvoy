@@ -16,16 +16,24 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AccountManager @Inject constructor(private val userPersistence: UserPersistence) {
+class AccountManager @Inject constructor(
+    private val userPersistence: UserPersistence
+) {
 
     companion object {
-        val USER_COACH = User(name = "Coach", userId = "leault3QkURTlm0HTE7VBu257uA2", isACoach = true)
+        val USER_COACH = User(name = "Coach", userId = "leault3QkURTlm0HTE7VBu257uA2", isACoach = true, token = "")
     }
 
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     private val userData: MutableLiveData<User> = MutableLiveData<User>()
     private var currentUser: User? = null
+
+    private var fcmToken: String? = null
+
+    fun updateFCMToken(fcmToken: String) {
+        this.fcmToken = fcmToken
+    }
 
     fun getSignInIntent(@AppContext context: Context): Intent {
         val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -63,7 +71,12 @@ class AccountManager @Inject constructor(private val userPersistence: UserPersis
             auth.signInWithCredential(GoogleAuthProvider.getCredential(idToken, null))
                 .addOnSuccessListener {
                     it.user?.let { user ->
-                        User(name = user.displayName ?: "", userId = user.uid, isACoach = false).also { userObj ->
+                        User(
+                            name = user.displayName ?: "",
+                            userId = user.uid,
+                            isACoach = false,
+                            token = fcmToken ?: ""
+                        ).also { userObj ->
                             successListener.invoke(userObj)
                             currentUser = userObj
                             userData.postValue(userObj)
@@ -89,7 +102,12 @@ class AccountManager @Inject constructor(private val userPersistence: UserPersis
             when {
                 task.isSuccessful -> {
                     task.result.user?.let { user ->
-                        User(name = user.displayName ?: "", userId = user.uid, isACoach = user.uid == USER_COACH.userId).also { userObj ->
+                        User(
+                            name = user.displayName ?: if(user.uid == USER_COACH.userId) USER_COACH.name else "",
+                            userId = user.uid,
+                            isACoach = user.uid == USER_COACH.userId,
+                            token = fcmToken ?: ""
+                        ).also { userObj ->
                             onSuccess.invoke(userObj)
                             currentUser = userObj
                             userData.postValue(userObj)

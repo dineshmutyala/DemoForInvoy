@@ -6,9 +6,12 @@ import javax.inject.Singleton
 
 @Singleton
 class FirebaseManager @Inject constructor(
-    private val messagingManager: MessagingManager
+    private val messagingManager: MessagingManager,
+    private val accountManager: AccountManager
 ) {
     fun initialize() {
-        messagingManager.observeToken()
+        messagingManager.observeToken {
+            accountManager.updateFCMToken(it)
+        }
     }
 }

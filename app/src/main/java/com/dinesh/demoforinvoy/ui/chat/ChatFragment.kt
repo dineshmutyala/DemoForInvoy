@@ -1,5 +1,9 @@
 package com.dinesh.demoforinvoy.ui.chat
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,11 +14,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dinesh.demoforinvoy.R
+import com.dinesh.demoforinvoy.core.SynchronizedTimeUtils
 import com.dinesh.demoforinvoy.core.misc.guardAgainstNull
 import com.dinesh.demoforinvoy.core.misc.isLastItemShowing
 import com.dinesh.demoforinvoy.core.misc.isValidToCheckForLastItem
@@ -22,6 +28,8 @@ import com.dinesh.demoforinvoy.databinding.FragmentChatBinding
 import com.dinesh.demoforinvoy.databinding.FullscreenBlockingLoadingBinding
 import com.dinesh.demoforinvoy.ui.BaseDaggerFragment
 import com.dinesh.demoforinvoy.viewmodel.chat.ChatViewModel
+import timber.log.Timber
+import java.util.*
 
 class ChatFragment: BaseDaggerFragment<ChatViewModel>(), MenuProvider {
 
@@ -120,13 +128,41 @@ class ChatFragment: BaseDaggerFragment<ChatViewModel>(), MenuProvider {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        args.userId?.let { viewModel.initializeForUser(it) }
+        args.userId?.let { userId -> args.userToken?.let { userToken -> viewModel.initializeForUser(userId, userToken) } }
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun setup() {
         super.setup()
         setUpList()
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
+            object: BroadcastReceiver() {
+                override fun onReceive(context: Context?, intent: Intent?) {
+                    intent?.extras?.let {
+                        val message = it.getString("message").guardAgainstNull { return }
+                        val messageId = it.getString("messageId").guardAgainstNull { return }
+                        val sentOn = it.getLong("sentOn").guardAgainstNull { return }
+                        adapter?.updateMessage(
+                            Pair(
+                                messageId,
+                                ChatMessagePresentationModel(
+                                    id = messageId,
+                                    message = message,
+                                    isSentMessage = false,
+                                    sentOn = SynchronizedTimeUtils.getFormattedTimeWithDateNoYearNoSec(
+                                        Date(sentOn),
+                                        TimeZone.getDefault()
+                                    )
+                                )
+                            )
+                        )
+                        binding?.listChat?.scrollToPosition(0)
+                        Timber.d("Dinesh: Received message - $it")
+                    }
+                }
+            },
+            IntentFilter("New Message")
+        )
     }
 
     private fun setUpList() {

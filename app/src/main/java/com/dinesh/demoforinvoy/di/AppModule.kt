@@ -5,6 +5,7 @@ import android.content.Context
 import com.dinesh.demoforinvoy.core.StringUtils
 import com.dinesh.demoforinvoy.core.firebase.AccountManager
 import com.dinesh.demoforinvoy.core.firebase.FireStoreManager
+import com.dinesh.demoforinvoy.core.firebase.messaging.MessagingManager
 import com.dinesh.demoforinvoy.core.misc.graph.GraphStyler
 import com.dinesh.demoforinvoy.core.misc.graph.GraphValueFormatter
 import com.dinesh.demoforinvoy.core.preferences.UserPersistence
@@ -45,5 +46,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFireStoreManager(accountManager: AccountManager): FireStoreManager = FireStoreManager(accountManager)
+    fun provideFireStoreManager(
+        accountManager: AccountManager,
+        messagingManager: MessagingManager
+    ): FireStoreManager = FireStoreManager(accountManager, messagingManager)
 }
