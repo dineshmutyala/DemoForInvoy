@@ -9,6 +9,7 @@ internal class ViewLogListItemViewHolder(
 ): BaseViewHolder<WeightLogPresentationModel>(binding.root) {
 
     override fun bindData(data: WeightLogPresentationModel) {
+        super.bindData(data)
         binding.weight.text = binding.weight.context.getString(R.string.x_lbs, data.weight)
         binding.weightOn.text = binding.weight.context.getString(R.string.on_y, data.weightOn)
     }

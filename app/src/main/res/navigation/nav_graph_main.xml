@@ -14,16 +14,28 @@
             app:destination="@id/homeFragment"
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph_main.xml"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fragment_transaction_slide_in_right"
+            app:exitAnim="@anim/fragment_transaction_slide_out_left"
+            app:popEnterAnim="@anim/fragment_transaction_slide_in_left"
+            app:popExitAnim="@anim/fragment_transaction_slide_out_right"/>
         <action
             android:id="@+id/action_introFragment_to_emailSignInFragment"
-            app:destination="@id/emailSignInFragment" />
+            app:destination="@id/emailSignInFragment"
+            app:enterAnim="@anim/fragment_transaction_slide_in_right"
+            app:exitAnim="@anim/fragment_transaction_slide_out_left"
+            app:popEnterAnim="@anim/fragment_transaction_slide_in_left"
+            app:popExitAnim="@anim/fragment_transaction_slide_out_right"/>
         <action
             android:id="@+id/action_introFragment_to_conversationsFragment"
             app:destination="@id/conversationsFragment"
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph_main.xml"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fragment_transaction_slide_in_right"
+            app:exitAnim="@anim/fragment_transaction_slide_out_left"
+            app:popEnterAnim="@anim/fragment_transaction_slide_in_left"
+            app:popExitAnim="@anim/fragment_transaction_slide_out_right"/>
     </fragment>
 
     <fragment
@@ -35,7 +47,11 @@
             app:destination="@id/introFragment"
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph_main.xml"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fragment_transaction_slide_in_right"
+            app:exitAnim="@anim/fragment_transaction_slide_out_left"
+            app:popEnterAnim="@anim/fragment_transaction_slide_in_left"
+            app:popExitAnim="@anim/fragment_transaction_slide_out_right"/>
         <action
             android:id="@+id/action_homeFragment_to_weightInputFragment"
             app:destination="@id/weightInputFragment"
@@ -58,7 +74,8 @@
             app:enterAnim="@anim/fragment_transaction_slide_in_right"
             app:exitAnim="@anim/fragment_transaction_slide_out_left"
             app:popEnterAnim="@anim/fragment_transaction_slide_in_left"
-            app:popExitAnim="@anim/fragment_transaction_slide_out_right" />
+            app:popExitAnim="@anim/fragment_transaction_slide_out_right" >
+        </action>
 
     </fragment>
 
@@ -80,7 +97,13 @@
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.dinesh.demoforinvoy.ui.chat.ChatFragment"
-        tools:layout="@layout/fragment_chat"/>
+        tools:layout="@layout/fragment_chat">
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="true"
+            />
+    </fragment>
 
     <fragment
         android:id="@+id/emailSignInFragment"
@@ -91,13 +114,21 @@
             app:destination="@id/homeFragment"
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph_main.xml"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fragment_transaction_slide_in_right"
+            app:exitAnim="@anim/fragment_transaction_slide_out_left"
+            app:popEnterAnim="@anim/fragment_transaction_slide_in_left"
+            app:popExitAnim="@anim/fragment_transaction_slide_out_right"/>
         <action
             android:id="@+id/action_emailSignInFragment_to_conversationsFragment"
             app:destination="@id/conversationsFragment"
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph_main.xml"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fragment_transaction_slide_in_right"
+            app:exitAnim="@anim/fragment_transaction_slide_out_left"
+            app:popEnterAnim="@anim/fragment_transaction_slide_in_left"
+            app:popExitAnim="@anim/fragment_transaction_slide_out_right"/>
     </fragment>
 
     <fragment
@@ -109,7 +140,18 @@
             app:destination="@id/introFragment"
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph_main.xml"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fragment_transaction_slide_in_right"
+            app:exitAnim="@anim/fragment_transaction_slide_out_left"
+            app:popEnterAnim="@anim/fragment_transaction_slide_in_left"
+            app:popExitAnim="@anim/fragment_transaction_slide_out_right"/>
+        <action
+            android:id="@+id/action_conversationsFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/fragment_transaction_slide_in_right"
+            app:exitAnim="@anim/fragment_transaction_slide_out_left"
+            app:popEnterAnim="@anim/fragment_transaction_slide_in_left"
+            app:popExitAnim="@anim/fragment_transaction_slide_out_right"/>
     </fragment>
 
 </navigation>

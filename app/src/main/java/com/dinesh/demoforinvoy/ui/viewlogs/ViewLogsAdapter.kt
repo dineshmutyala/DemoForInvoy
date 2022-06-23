@@ -6,34 +6,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dinesh.demoforinvoy.databinding.ItemLoadMoreBinding
 import com.dinesh.demoforinvoy.databinding.ListItemViewLogBinding
+import com.dinesh.demoforinvoy.ui.common.BaseAdapter
+import com.dinesh.demoforinvoy.ui.common.BaseViewHolder
 import com.dinesh.demoforinvoy.ui.common.LoadMoreViewHolder
 
-class ViewLogsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ViewLogsAdapter: BaseAdapter<WeightLogPresentationModel>() {
 
     companion object {
-        class DiffCallback(
-            private val newList: List<WeightLogPresentationModel>,
-            private val oldList: List<WeightLogPresentationModel>
-        ) : DiffUtil.Callback() {
-            override fun getOldListSize(): Int = oldList.size
-
-            override fun getNewListSize(): Int = newList.size
-
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return oldList[oldItemPosition].id == newList[newItemPosition].id
-            }
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return oldList[oldItemPosition] == newList[newItemPosition]
-            }
-        }
-
         const val VIEW_TYPE_DEFAULT = 0
         const val VIEW_TYPE_LOADING = 1
 
     }
 
-    private val listData = mutableListOf<WeightLogPresentationModel>()
     private var isLoadingMore = false
     private var canLoadMore = true
 
@@ -58,15 +42,15 @@ class ViewLogsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     private fun triggerDiffCallback(newData: List<WeightLogPresentationModel>) {
-        val diffResult = DiffUtil.calculateDiff(DiffCallback(newData, this.listData))
+        val diffResult = DiffUtil.calculateDiff(BaseAdapter.Companion.DiffCallback(newData, this.listData))
         diffResult.dispatchUpdatesTo(this)
         listData.clear()
         listData.addAll(newData)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<WeightLogPresentationModel> {
         return when (viewType) {
-            VIEW_TYPE_LOADING -> LoadMoreViewHolder<WeightLogPresentationModel>(
+            VIEW_TYPE_LOADING -> LoadMoreViewHolder(
                 ItemLoadMoreBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
             else -> ViewLogListItemViewHolder(
@@ -75,7 +59,7 @@ class ViewLogsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder<WeightLogPresentationModel>, position: Int) {
         when(holder) {
             is ViewLogListItemViewHolder -> holder.bindData(listData[position])
         }

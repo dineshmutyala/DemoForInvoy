@@ -1,3 +1,5 @@
 package com.dinesh.demoforinvoy.ui.common
 
-interface BasePresentationModel
+interface BasePresentationModel {
+    val id: String
+}

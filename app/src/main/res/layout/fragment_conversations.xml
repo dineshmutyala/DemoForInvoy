@@ -10,4 +10,6 @@
         android:paddingVertical="@dimen/_8sdp"
         android:clipToPadding="false"/>
 
+    <include layout="@layout/fullscreen_blocking_loading"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

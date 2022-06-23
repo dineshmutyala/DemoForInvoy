@@ -19,8 +19,7 @@ class FireStoreManager @Inject constructor(private val accountManager: AccountMa
     private val instance: FirebaseFirestore by lazy { Firebase.firestore }
 
     private lateinit var userDocs: DocumentReference
-    private lateinit var coachChatDocs: DocumentReference
-    private lateinit var coachConversationDocs: DocumentReference
+    private lateinit var conversationWithCoachDocs: DocumentReference
 
     private var userData: LiveData<User>? = null
     private var userDataObserver: Observer<User>? = null
@@ -39,31 +38,20 @@ class FireStoreManager @Inject constructor(private val accountManager: AccountMa
         userDocs.set(user, SetOptions.merge())
     }
 
-    fun initializeChat(onSuccess: () -> Unit, onFailure: () -> Unit) {
-        val currentUser = accountManager.getCurrentUser().guardAgainstNull { return onFailure() }
-
-        if (!::coachChatDocs.isInitialized) {
-            coachChatDocs = instance.document("messages/${currentUser.userId}")
-        }
-        coachChatDocs
-            .get(Source.SERVER)
-            .addOnCompleteListener {
-                when {
-                    it.exception != null -> onFailure()
-                    else -> onSuccess()
-                }
-            }
+    private fun getUserChatDocs(currentUser: User, chatWithUserId: String?): DocumentReference {
+        return instance.document("messages/${chatWithUserId ?: currentUser.userId}")
     }
 
-    fun sendMessageToCoach(
+    fun sendMessage(
         message: String,
+        chatWithUserId: String?,
         onSuccess: (Message) -> Unit,
         onFailure: () -> Unit
     ) {
 
         val currentUser = accountManager.getCurrentUser().guardAgainstNull { return onFailure() }
         val sentOn = Date().time
-        coachChatDocs.collection(USER_COACH.userId).add(
+        getUserChatDocs(currentUser, chatWithUserId).collection(USER_COACH.userId).add(
             mapOf(
                 "message" to message,
                 "sentOn" to sentOn,
@@ -80,24 +68,24 @@ class FireStoreManager @Inject constructor(private val accountManager: AccountMa
                             isSentMessage = true
                         )
                     )
-                    addCoachConversationToDb()
+                    addCoachConversationToDb(chatWithUserId)
                 }
                 it.exception != null -> onFailure()
             }
         }
     }
 
-    private fun addCoachConversationToDb() {
+    private fun addCoachConversationToDb(chatWithUserId: String?) {
         val currentUser = accountManager.getCurrentUser().guardAgainstNull { return }
 
-        if (!::coachConversationDocs.isInitialized) {
-            coachConversationDocs = instance.document("coach/${USER_COACH.userId}/conversations/${currentUser.userId}")
+        if (!::conversationWithCoachDocs.isInitialized) {
+            conversationWithCoachDocs = instance.document("coach/${USER_COACH.userId}/conversations/${chatWithUserId ?: currentUser.userId}")
         }
 
-        coachConversationDocs.set(mapOf("temp" to true), SetOptions.merge())
+        conversationWithCoachDocs.set(mapOf("temp" to true), SetOptions.merge())
     }
 
-    fun getMessages(forPage: Int, onSuccess: (List<Message>) -> Unit, onFailure: () -> Unit) {
+    fun getMessages(forPage: Int, chatWithUserId: String?, onSuccess: (List<Message>) -> Unit, onFailure: () -> Unit) {
 
         val currentUser = accountManager.getCurrentUser().guardAgainstNull { return }
 
@@ -116,18 +104,19 @@ class FireStoreManager @Inject constructor(private val accountManager: AccountMa
 //        }
 
         (if (forPage == 1) null else docRefForLastItemInMostRecentPage).also { docRef ->
-            getNextPageOfMessages(currentUser, onSuccess, onFailure, docRef)
+            getNextPageOfMessages(currentUser, chatWithUserId, onSuccess, onFailure, docRef)
         }
     }
 
     private fun getNextPageOfMessages(
         currentUser: User,
+        chatWithUserId: String?,
         onSuccess: (List<Message>) -> Unit,
         onFailure: () -> Unit,
         startAfter: DocumentSnapshot? = null
     ) {
 
-        val query = coachChatDocs
+        val query = getUserChatDocs(currentUser, chatWithUserId)
             .collection(USER_COACH.userId)
             .orderBy("sentOn", Query.Direction.DESCENDING)
             .limit(20)
@@ -150,6 +139,40 @@ class FireStoreManager @Inject constructor(private val accountManager: AccountMa
         }.addOnFailureListener {
             onFailure()
         }
+    }
+
+    fun getCoachConversations(onSuccess: (List<User>) -> Unit, onFailure: () -> Unit) {
+        instance
+            .collection("coach/${USER_COACH.userId}/conversations/")
+            .get(Source.SERVER)
+            .addOnCompleteListener { taskConversations ->
+                when {
+                    taskConversations.isSuccessful -> {
+                        instance.collection("user")
+                            .whereIn(
+                                FieldPath.documentId(),
+                                taskConversations.result.documents.map { documentSnapshot -> documentSnapshot.id }
+                            )
+                            .get()
+                            .addOnCompleteListener { usersTask ->
+                                when {
+                                    usersTask.isSuccessful -> {
+                                        usersTask.result.documents.map {
+                                            User(
+                                                name = it["name"]?.toString() ?: "",
+                                                userId = it["userId"]?.toString() ?: ""
+                                            )
+                                        }.also {
+                                            onSuccess(it)
+                                        }
+                                    }
+                                    else -> onFailure()
+                                }
+                            }
+                    }
+                    else -> onFailure()
+                }
+            }
     }
 
     fun clearReferences() {

@@ -1,5 +1,6 @@
 package com.dinesh.demoforinvoy.ui.chat
 
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dinesh.demoforinvoy.R
@@ -28,6 +30,8 @@ class ChatFragment: BaseDaggerFragment<ChatViewModel>(), MenuProvider {
     private var textChangedListener: TextWatcher? = null
 
     private var adapter: ChatAdapter? = null
+
+    private val args by navArgs<ChatFragmentArgs>()
 
     override val fragmentLayoutId: Int = R.layout.fragment_chat
 
@@ -87,7 +91,7 @@ class ChatFragment: BaseDaggerFragment<ChatViewModel>(), MenuProvider {
         val binding = binding.guardAgainstNull { return }
 
         binding.chatSend.setOnClickListener {
-            viewModel.sendMessageToCoach(binding.chatInput.text.toString())
+            viewModel.sendMessage(binding.chatInput.text.toString())
             binding.chatInput.text.clear()
         }
 
@@ -113,6 +117,11 @@ class ChatFragment: BaseDaggerFragment<ChatViewModel>(), MenuProvider {
     private fun handleLoadMoreMessages() {
         adapter?.loadingMore()
         viewModel.getNextPage()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        args.userId?.let { viewModel.initializeForUser(it) }
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun setup() {

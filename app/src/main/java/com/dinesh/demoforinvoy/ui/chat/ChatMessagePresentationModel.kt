@@ -2,17 +2,18 @@ package com.dinesh.demoforinvoy.ui.chat
 
 import com.dinesh.demoforinvoy.core.SynchronizedTimeUtils
 import com.dinesh.demoforinvoy.datamodels.message.Message
+import com.dinesh.demoforinvoy.ui.common.BasePresentationModel
 import java.util.*
 
 data class ChatMessagePresentationModel(
-    val id: String = UUID.randomUUID().toString(),
+    override val id: String = UUID.randomUUID().toString(),
     val message: String,
     val sentOn: String,
     val isSentMessage: Boolean = true,
     val isLoading: Boolean = false,
     val sendFailed: Boolean = false,
     val loadAsImage: Boolean = false
-) {
+): BasePresentationModel {
     companion object {
         val EMPTY = ChatMessagePresentationModel("", "", "")
 

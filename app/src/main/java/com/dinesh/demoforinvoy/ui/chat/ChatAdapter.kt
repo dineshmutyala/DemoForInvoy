@@ -3,40 +3,21 @@ package com.dinesh.demoforinvoy.ui.chat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.dinesh.demoforinvoy.databinding.ItemLoadMoreBinding
 import com.dinesh.demoforinvoy.databinding.ListItemChatMessageReceivedBinding
 import com.dinesh.demoforinvoy.databinding.ListItemChatMessageSentBinding
+import com.dinesh.demoforinvoy.ui.common.BaseAdapter
 import com.dinesh.demoforinvoy.ui.common.BaseViewHolder
 import com.dinesh.demoforinvoy.ui.common.LoadMoreViewHolder
 
-class ChatAdapter: RecyclerView.Adapter<BaseViewHolder<ChatMessagePresentationModel>>() {
+class ChatAdapter: BaseAdapter<ChatMessagePresentationModel>() {
 
     companion object {
-        class DiffCallback(
-            private val newList: List<ChatMessagePresentationModel>,
-            private val oldList: List<ChatMessagePresentationModel>
-        ) : DiffUtil.Callback() {
-            override fun getOldListSize(): Int = oldList.size
-
-            override fun getNewListSize(): Int = newList.size
-
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return oldList[oldItemPosition].id == newList[newItemPosition].id
-            }
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return oldList[oldItemPosition] == newList[newItemPosition]
-            }
-        }
-
         const val VIEW_TYPE_LOADING = 0
         const val VIEW_TYPE_SENT = 1
         const val VIEW_TYPE_RECEIVED = 2
-
     }
 
-    private val listData = mutableListOf<ChatMessagePresentationModel>()
     private var isLoadingMore = false
     private var canLoadMore = true
 
@@ -77,7 +58,7 @@ class ChatAdapter: RecyclerView.Adapter<BaseViewHolder<ChatMessagePresentationMo
     }
 
     private fun triggerDiffCallback(newData: List<ChatMessagePresentationModel>) {
-        val diffResult = DiffUtil.calculateDiff(DiffCallback(newData, this.listData))
+        val diffResult = DiffUtil.calculateDiff(BaseAdapter.Companion.DiffCallback(newData, this.listData))
         diffResult.dispatchUpdatesTo(this)
         listData.clear()
         listData.addAll(newData)
@@ -95,16 +76,6 @@ class ChatAdapter: RecyclerView.Adapter<BaseViewHolder<ChatMessagePresentationMo
                 ListItemChatMessageReceivedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
         }
-    }
-
-    override fun onBindViewHolder(holder: BaseViewHolder<ChatMessagePresentationModel>, position: Int) {
-        when(holder) {
-            is ChatMessageBaseViewHolder -> holder.bindData(listData[position])
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return listData.size
     }
 
     override fun getItemViewType(position: Int): Int {

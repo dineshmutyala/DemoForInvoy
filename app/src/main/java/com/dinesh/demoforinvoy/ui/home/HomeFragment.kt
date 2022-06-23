@@ -62,9 +62,7 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
         binding.enterWeight.setOnClickListener { inputWeightFromUser() }
         binding.weightToday.setOnClickListener { inputWeightFromUser() }
         binding.expandGraph.setOnClickListener { navigateToChat() }
-        binding.chatWithYourHealthCoach.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToChatFragment())
-        }
+        binding.chatWithYourHealthCoach.setOnClickListener { navigateToChat() }
 
         binding.sendGraphToCoach.setOnClickListener {
             loadBitmapFromView(binding.lineGraph)?.also {
@@ -80,7 +78,7 @@ class HomeFragment: BaseDaggerFragment<HomeViewModel>(), MenuProvider {
     }
 
     private fun navigateToChat() {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToChatFragment())
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToChatFragment(null))
     }
 
     private fun inputWeightFromUser() {

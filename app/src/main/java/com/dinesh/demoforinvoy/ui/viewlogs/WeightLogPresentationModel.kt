@@ -4,7 +4,7 @@ import com.dinesh.demoforinvoy.ui.common.BasePresentationModel
 import java.util.*
 
 data class WeightLogPresentationModel(
-    val id: String = UUID.randomUUID().toString(),
+    override val id: String = UUID.randomUUID().toString(),
     val weightOn: String,
     val weight: String
 ): BasePresentationModel {
